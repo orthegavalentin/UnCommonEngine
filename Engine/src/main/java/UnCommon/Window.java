@@ -97,7 +97,7 @@ public class Window {
 
     public void loop(){
         // Set the clear color
-        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor((float)Math.random(), (float)Math.random(), (float)Math.random(),(float)Math.random());
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
