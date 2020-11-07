@@ -1,6 +1,7 @@
 package UnCommon;
 
 import Renderer.Shader;
+import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 
 import java.awt.event.KeyEvent;
@@ -14,36 +15,16 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 
 public class LevelEditorScene extends Scene {
-    private String vertexShaderSrc="#version 330 core\n" +
-            "\n" +
-            "layout(location=0)in vec3 aPos;\n" +
-            "layout(location=1)in vec4 aColor;\n" +
-            "\n" +
-            "out vec4 fColor;\n" +
-            "\n" +
-            "void main(){\n" +
-            "    fColor=aColor;\n" +
-            "    gl_Position=vec4(aPos, 1.0);\n" +
-            "\n" +
-            "}";
-    private String fragmentShaderSrc=" #version 330\n" +
-            " in vec4 fColor;\n" +
-            "out vec4 color;\n" +
-            "\n" +
-            "void main(){\n" +
-            "    color=fColor;\n" +
-            "}";
-
 
 
     private int vertexId,fragmentId,shaderProgram;
 
     private float [] vertexArray={
             //position                  // color
-             0.5f, -0.5f,  0.0f,        1.0f,0.0f,0.0f,1.0f,//BottomRight 0
-            -0.5f,  0.5f,  0.0f,        0.0f,1.0f,0.0f,1.0f,//top left    1
-             0.5f,  0.5f,  0.0f,        0.0f,0.0f,1.0f,1.0f,//Top right   2
-            -0.5f, -0.5f,  0.0f,        1.0f,1.0f,0.0f,1.0f,//Bottomleft  3
+             100.5f, 0.5f,  0.0f,        1.0f,0.0f,0.0f,1.0f,//BottomRight 0
+            0.5f,  100.5f,  0.0f,        0.0f,1.0f,0.0f,1.0f,//top left    1
+             100.5f,  100.5f,  0.0f,        0.0f,0.0f,1.0f,1.0f,//Top right   2
+            0.5f, 0.5f,  0.0f,        1.0f,1.0f,0.0f,1.0f,//Bottomleft  3
 
     };
     private int[]indicesArray={
@@ -64,6 +45,7 @@ public class LevelEditorScene extends Scene {
     }
     @Override
     public void init(){
+        this.camera=new Camera(new Vector2f());
         shader=new Shader("Assets/shaders/default.glsl");
         shader.compileAndLink();
 
@@ -129,8 +111,12 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void update(float dt) {
+        camera.position.x -= dt*80.0f;
+        System.out.println("running at"+(1.0f/dt)+"fps");
 
          shader.use();
+         shader.uploadMat4f("uProjection",camera.getProjectionMatrix());
+        shader.uploadMat4f("uView",camera.getViewMatrix());
         //bind the VAO that we're using
         glBindVertexArray(vaoID);
 
