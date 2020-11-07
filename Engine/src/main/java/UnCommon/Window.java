@@ -3,6 +3,7 @@ package UnCommon;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import util.Time;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -14,12 +15,32 @@ public class Window {
     private String title;
     private long glfwWindow;
 
+   private static Scene currentScene;
+
 
     private Window() {
         this.height = 1080;
         this.width = 1920;
         this.title = "UnCommon";
 
+    }
+    public static void changeScene(int newScene){
+        switch(newScene){
+            case 0:
+                currentScene=new LevelEditorScene();
+                currentScene.init();
+                break;
+            case 1:
+                currentScene=new LevelScene();
+                currentScene.init();
+                break;
+            default:
+                assert false :"unknown scene "+newScene+"**";
+                break;
+
+
+
+        }
     }
 
     /**
@@ -102,25 +123,40 @@ public class Window {
         // creates the GLCapabilities instance and makes the OpenGL
         // bindings available for use.
         GL.createCapabilities();
+        Window.changeScene(0);
 
     }
 
     public void loop() {
+        float beginTime= Time.getTime();
+        float endTime=Time.getTime();
+        float dt=-1.0f;
+
+
+
         // Set the clear color
         glClearColor((float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random());
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while (!glfwWindowShouldClose(glfwWindow)) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            glfwSwapBuffers(glfwWindow); // swap the color buffers
-            if (KeyListener.isKeypressed(GLFW_KEY_SPACE)) {
-                   System.out.println("you taped space bro");
-            }
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+            if (MouseListener.isDragging()) {
+                System.out.println("you are dragging bro");
+            }
+            if(dt>=0){
+                currentScene.update(dt);
+            }
+            glfwSwapBuffers(glfwWindow); // swap the color buffers
+
+            endTime=Time.getTime();
+            dt=endTime-beginTime;
+            beginTime=endTime;
+
         }
 
 
