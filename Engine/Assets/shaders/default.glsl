@@ -11,7 +11,7 @@ void main(){
     gl_Position=vec4(aPos, 1.0);
 
 }
-    #type vertex
+    #type fragment
     #version 330
  in vec4 fColor;
 out vec4 color;
