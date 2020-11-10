@@ -29,10 +29,12 @@ public class Window {
             case 0:
                 currentScene=new LevelEditorScene();
                 currentScene.init();
+                currentScene.start();
                 break;
             case 1:
                 currentScene=new LevelScene();
                 currentScene.init();
+                currentScene.start();
                 break;
             default:
                 assert false :"unknown scene "+newScene+"**";
@@ -128,8 +130,8 @@ public class Window {
     }
 
     public void loop() {
-        float beginTime= Time.getTime();
-        float endTime=Time.getTime();
+        float beginTime= (float) glfwGetTime();
+        float endTime= (float) glfwGetTime();
         float dt=-1.0f;
 
 
@@ -153,7 +155,7 @@ public class Window {
             }
             glfwSwapBuffers(glfwWindow); // swap the color buffers
 
-            endTime=Time.getTime();
+            endTime= (float) glfwGetTime();
             dt=endTime-beginTime;
             beginTime=endTime;
 

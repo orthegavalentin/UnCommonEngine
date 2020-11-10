@@ -1,14 +1,19 @@
 package UnCommon;
 
 import Renderer.Shader;
+import Renderer.Texture;
+import components.FontRenderer;
+import components.SpriteRenderer;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
+import util.Time;
 
 import java.awt.event.KeyEvent;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
@@ -18,13 +23,15 @@ public class LevelEditorScene extends Scene {
 
 
     private int vertexId,fragmentId,shaderProgram;
+    private Texture texture;
+    GameObject testObj;
 
     private float [] vertexArray={
-            //position                  // color
-             100.5f, 0.5f,  0.0f,        1.0f,0.0f,0.0f,1.0f,//BottomRight 0
-            0.5f,  100.5f,  0.0f,        0.0f,1.0f,0.0f,1.0f,//top left    1
-             100.5f,  100.5f,  0.0f,        0.0f,0.0f,1.0f,1.0f,//Top right   2
-            0.5f, 0.5f,  0.0f,        1.0f,1.0f,0.0f,1.0f,//Bottomleft  3
+            //position                      // color
+             100f,    0f,  0.0f,        1.0f,0.0f,0.0f,1.0f,          1,1, //BottomRight 0
+             0.0f,  100f,  0.0f,        0.0f,1.0f,0.0f,1.0f,          0,0, //top left    1
+             100f,  100f,  0.0f,        1.0f,0.0f,1.0f,1.0f,          1,0, //Top right   2
+               0f,    0f,  0.0f,        1.0f,1.0f,0.0f,1.0f,          0,1//Bottomleft  3
 
     };
     private int[]indicesArray={
@@ -37,6 +44,8 @@ public class LevelEditorScene extends Scene {
     };
     private int vaoID,vboID,eboID;
     private Shader shader;
+    private boolean firstTime=true;
+
     public LevelEditorScene() {
 
 
@@ -45,9 +54,16 @@ public class LevelEditorScene extends Scene {
     }
     @Override
     public void init(){
+        System.out.println("creating test Object");
+
+        this.testObj=new GameObject("test Object");
+        this.testObj.addComponent(new SpriteRenderer());
+        this.testObj.addComponent(new FontRenderer());
+        this.addGameObjectToScene(this.testObj);
         this.camera=new Camera(new Vector2f());
         shader=new Shader("Assets/shaders/default.glsl");
         shader.compileAndLink();
+        this.texture=new Texture("Assets/images/lena.png");
 
       //======================================
       // Generate VAO,VBO and EBO bufferobjects , and send them to GPU
@@ -77,8 +93,9 @@ public class LevelEditorScene extends Scene {
 
         int positionSize =3;//x y z
         int colorSize=4;// r g b a
-        int floatSizeBytes=4; //size of a float =4 bytes
-        int vertexSizeBytes=(positionSize+colorSize)*floatSizeBytes;
+        int uvSize=2;
+
+        int vertexSizeBytes=(positionSize+colorSize+uvSize)*Float.BYTES;
 
         glVertexAttribPointer(0,
                 positionSize,
@@ -93,8 +110,15 @@ public class LevelEditorScene extends Scene {
                 GL_FLOAT,//type
                 false,
                 vertexSizeBytes,//stride how long until the next vertex
-                positionSize*floatSizeBytes);//offset
+                positionSize*Float.BYTES);//offset
         glEnableVertexAttribArray(1);
+       glVertexAttribPointer(2,
+                uvSize,//size
+                GL_FLOAT,//type
+                false,
+                vertexSizeBytes,//stride how long until the next vertex
+                (positionSize+colorSize)*Float.BYTES);//offset
+        glEnableVertexAttribArray(2);
 
 
 
@@ -112,11 +136,17 @@ public class LevelEditorScene extends Scene {
     @Override
     public void update(float dt) {
         camera.position.x -= dt*80.0f;
-        System.out.println("running at"+(1.0f/dt)+"fps");
+       // System.out.println("running at"+(1.0f/dt)+"fps");
 
          shader.use();
+
+         shader.uploadTexture("uTexture",0);
+       glActiveTexture(GL_TEXTURE0);
+        texture.bind();
+
          shader.uploadMat4f("uProjection",camera.getProjectionMatrix());
         shader.uploadMat4f("uView",camera.getViewMatrix());
+        shader.uploadFloat("uTime",(float) glfwGetTime());
         //bind the VAO that we're using
         glBindVertexArray(vaoID);
 
@@ -133,7 +163,19 @@ public class LevelEditorScene extends Scene {
         glBindVertexArray(0);
         shader.detach();
 
+        if(firstTime) {
+            System.out.println("Creting object at runtime");
+            GameObject go = new GameObject("Game Object");
+            go.addComponent(new SpriteRenderer());
+            this.addGameObjectToScene(go);
+            firstTime=false;
+        }
 
+            for(GameObject o:gameObjects){
+                o.update(dt);
+
+
+            }
 
 
     }
