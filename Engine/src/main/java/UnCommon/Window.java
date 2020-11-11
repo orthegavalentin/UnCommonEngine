@@ -14,7 +14,7 @@ public class Window {
     private int height, width;
     private String title;
     private long glfwWindow;
-
+    private static Window window;
    private static Scene currentScene;
 
 
@@ -45,21 +45,15 @@ public class Window {
         }
     }
 
-    /**
-     * techinque du holder pour utiliser le pattern singleton
-     * description ici
-     * http://thecodersbreakfast.net/index.php?post/2008/02/25/26-de-la-bonne-implementation-du-singleton-en-java
-     */
-    private static class WindowHolder {
-        /**
-         * Instance unique non préinitialisée
-         */
-        private final static Window window = new Window();
+    public static Window getWindow(){
+        if(Window.window==null){
+            Window.window=new Window();
+        }
+        return Window.window;
     }
 
-    public static Window getWindow() {
-
-        return WindowHolder.window;
+    public static Scene getScene(){
+        return getWindow().currentScene;
 
     }
 
@@ -84,6 +78,8 @@ public class Window {
 
 
     }
+
+
 
     public void init() {
         //gestion d'erreur
