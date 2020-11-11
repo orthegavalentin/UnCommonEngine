@@ -5,6 +5,7 @@ import Renderer.Texture;
 import components.SpriteRenderer;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
+import util.AssetPool;
 
 
 public class LevelEditorScene extends Scene {
@@ -46,11 +47,18 @@ public class LevelEditorScene extends Scene {
 
         }
 
+        loadResources();
+
+
+    }
+    private void loadResources(){
+        AssetPool.getShader("Assets/shaders/default.glsl");
 
     }
 
     @Override
     public void update(float dt) {
+       // System.out.println("fps= "+ (1.0f/dt));
 
         for (GameObject o : this.gameObjects) {
             o.update(dt);
