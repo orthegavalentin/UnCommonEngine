@@ -41,7 +41,8 @@ public class RenderBatch {
     private int vaoID, vboID;
     private int maxBatchSize;
     private Shader shader;
-    private int[] texSlots={0, 1, 2, 3, 4, 5, 6, 7};;
+    private int[] texSlots = {0, 1, 2, 3, 4, 5, 6, 7};
+    ;
 
     public RenderBatch(int maxBatchSize) {
         //avoiding creation of a bunch of shader for nothing
@@ -167,7 +168,7 @@ public class RenderBatch {
         if (sprite.getTexture() != null) {
             for (int i = 0; i < textures.size(); i++) {
                 if (textures.get(i) == sprite.getTexture()) {
-                    texId = i+1;
+                    texId = i + 1;
                     break;
 
 
@@ -221,9 +222,22 @@ public class RenderBatch {
 
 
     public void render() {
-        //for now, we will rebuffer all data every frame
-        glBindBuffer(GL_ARRAY_BUFFER, vboID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
+        boolean rebufferData = false;
+        for (int i = 0; i < numSprites; i++) {
+            SpriteRenderer spriteRenderer = sprites[i];
+            if (spriteRenderer.isDirty()) {
+                loadVertexProperties(i);
+                spriteRenderer.setClean();
+                rebufferData = true;
+
+            }
+
+        }
+
+        if (rebufferData) {
+            glBindBuffer(GL_ARRAY_BUFFER, vboID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
+        }
 
 
         //use our shader
@@ -232,12 +246,12 @@ public class RenderBatch {
         shader.uploadMat4f("uProjection", Window.getScene().camera().getProjectionMatrix());
         shader.uploadMat4f("uView", Window.getScene().camera().getViewMatrix());
         for (int i = 0; i < textures.size(); i++) {
-            glActiveTexture(GL_TEXTURE0 + i+1);
+            glActiveTexture(GL_TEXTURE0 + i + 1);
             textures.get(i).bind();
 
 
         }
-        shader.uploadIntArray("uTextures",texSlots);
+        shader.uploadIntArray("uTextures", texSlots);
         glBindVertexArray(vaoID);
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
@@ -278,10 +292,11 @@ public class RenderBatch {
         return this.hasRoom;
     }
 
-    public boolean hasTextureRoom(){
-        return this.textures.size()<8;
+    public boolean hasTextureRoom() {
+        return this.textures.size() < 8;
     }
-    public boolean hasTexture(Texture tex){
+
+    public boolean hasTexture(Texture tex) {
         return this.textures.contains(tex);
     }
 
