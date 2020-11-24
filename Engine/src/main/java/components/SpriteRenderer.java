@@ -20,12 +20,14 @@ public class SpriteRenderer extends Component {
 
         this.sprite = new Sprite(null);
         this.color = color;
+        isDirty=true;
 
     }
 
     public SpriteRenderer(Sprite sprite) {
         this.sprite = sprite;
         this.color = new Vector4f(1, 1, 1, 1);
+      isDirty=true;
     }
 
     public Texture getTexture() {

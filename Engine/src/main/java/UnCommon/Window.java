@@ -1,9 +1,12 @@
 package UnCommon;
 
+import org.joml.Vector4f;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import util.Time;
+
+import java.awt.*;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -15,6 +18,7 @@ public class Window {
     private String title;
     private long glfwWindow;
     private static Window window;
+    private Vector4f color;
    private static Scene currentScene;
 
 
@@ -22,6 +26,7 @@ public class Window {
         this.height = 1080;
         this.width = 1920;
         this.title = "UnCommon";
+        this.color=new Vector4f(1,1,1,1);
 
     }
     public static void changeScene(int newScene){
@@ -121,6 +126,8 @@ public class Window {
         // creates the GLCapabilities instance and makes the OpenGL
         // bindings available for use.
         GL.createCapabilities();
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
         Window.changeScene(0);
 
     }
@@ -133,8 +140,8 @@ public class Window {
 
 
         // Set the clear color
-        glClearColor((float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random());
-
+       // glClearColor((float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random());
+        glClearColor(this.color.x,this.color.y,this.color.z,this.color.w);
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while (!glfwWindowShouldClose(glfwWindow)) {

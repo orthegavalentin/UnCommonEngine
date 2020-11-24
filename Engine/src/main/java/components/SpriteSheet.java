@@ -11,11 +11,11 @@ public class SpriteSheet {
     private Texture texture;
     private List<Sprite> sprites;
 
-    public SpriteSheet(Texture texture, int spriteWidth, int spriteHeight, int numSprites, int spacing) {
+    public SpriteSheet(Texture texture, int spriteWidth, int spriteHeight, int numSprites, float spacing) {
         this.sprites = new ArrayList<>();
         this.texture = texture;
-        int currentX = 0;
-        int currentY = texture.getHeight() - spriteHeight;
+        float currentX = 0;
+        float currentY = texture.getHeight() - spriteHeight;
         for (int i = 0; i < numSprites; i++) {
 
             float topY = (currentY + spriteHeight) / (float) texture.getHeight();

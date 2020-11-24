@@ -15,7 +15,7 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class RenderBatch {
+public class RenderBatch  implements Comparable<RenderBatch>{
     //Vertex
     //=======
     //Pos                    color                         tex coords      tex id
@@ -42,14 +42,15 @@ public class RenderBatch {
     private int maxBatchSize;
     private Shader shader;
     private int[] texSlots = {0, 1, 2, 3, 4, 5, 6, 7};
-    ;
+    private int zIndex;
 
-    public RenderBatch(int maxBatchSize) {
+    public RenderBatch(int maxBatchSize,int zIndex) {
         //avoiding creation of a bunch of shader for nothing
         shader = AssetPool.getShader("assets/shaders/default.glsl");
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
         this.textures = new ArrayList<>();
+        this.zIndex=zIndex;
 
         vertices = new float[maxBatchSize * 4 * VERTEX_SIZE];
         this.numSprites = 0;
@@ -300,5 +301,14 @@ public class RenderBatch {
         return this.textures.contains(tex);
     }
 
+    public int getzIndex(){
+        return this.zIndex;
+    }
 
+
+    @Override
+    public int compareTo(RenderBatch o) {
+
+        return Integer.compare(this.zIndex,o.getzIndex());
+    }
 }
