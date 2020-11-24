@@ -29,10 +29,10 @@ public class LevelEditorScene extends Scene {
 
        this.camera = new Camera(new Vector2f(-250,0));
         obj1=new GameObject("object 1",new Transform(new Vector2f(100,100),new Vector2f(100,100)),2);
-       obj1.addComponent((new SpriteRenderer(new Sprite(AssetPool.getTexture("Assets/images/blendImage1.png")))));
+       obj1.addComponent((new SpriteRenderer(sprites.getSprite(15))));
        this.addGameObjectToScene(obj1);
          obj2=new GameObject("object 2",new Transform(new Vector2f(150,100),new Vector2f(100,100)),1);
-        obj2.addComponent((new SpriteRenderer(new Sprite(AssetPool.getTexture("Assets/images/blendImage2.png")))));
+        obj2.addComponent((new SpriteRenderer(sprites.getSprite(0))));
         this.addGameObjectToScene(obj2);
 
 
@@ -52,6 +52,10 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void update(float dt) {
+        System.out.println("fps= "+ (1.0f/dt));
+
+        obj2.transform.translate.x+=10*dt;
+        obj1.transform.translate.x+=20*dt;
 
 
         for (GameObject o : this.gameObjects) {

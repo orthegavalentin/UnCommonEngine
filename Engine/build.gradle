@@ -8,6 +8,8 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    jcenter()
+
 }
 
 dependencies {
@@ -16,10 +18,21 @@ dependencies {
 project.ext.lwjglVersion = "3.2.3"
 project.ext.lwjglNatives = "natives-windows"
 project.ext.jomlVersion = "1.9.23"
+project.ext.imguiVersion = '1.76-0.9'
+project.ext.imguiNatives="imgui-java-natives-windows"
+
+
+
+
 
 
 '--warning-mode all'
 dependencies {
+
+    implementation "io.imgui.java:binding:$imguiVersion"
+    implementation "io.imgui.java:lwjgl3:$imguiVersion"
+    runtimeOnly "io.imgui.java:natives-windows:$imguiVersion"
+
 
 
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")

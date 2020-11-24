@@ -20,6 +20,7 @@ public class Window {
     private static Window window;
     private Vector4f color;
    private static Scene currentScene;
+   private ImGuiLayer imGuiLayer;
 
 
     private Window() {
@@ -111,7 +112,10 @@ public class Window {
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
         glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
-
+        glfwSetWindowSizeCallback(glfwWindow, (w, newWidth, newHeight) -> {
+            Window.setWidth(newWidth);
+            Window.setHeight(newHeight);
+        });
         // Make the OpenGL context current
         glfwMakeContextCurrent(glfwWindow);
         // Enable v-sync
@@ -128,6 +132,8 @@ public class Window {
         GL.createCapabilities();
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
+        this.imGuiLayer= new ImGuiLayer(glfwWindow);
+      this.imGuiLayer.initImGui();
         Window.changeScene(0);
 
     }
@@ -149,13 +155,14 @@ public class Window {
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+            glClear(GL_COLOR_BUFFER_BIT ); // clear the framebuffer
             if (MouseListener.isDragging()) {
                 System.out.println("you are dragging bro");
             }
             if(dt>=0){
                 currentScene.update(dt);
             }
+          this.imGuiLayer.update(dt);
             glfwSwapBuffers(glfwWindow); // swap the color buffers
 
             endTime= (float) glfwGetTime();
@@ -166,4 +173,23 @@ public class Window {
 
 
     }
+
+    public static int getWidth(){
+        return getWindow().width;
+
+    }
+    public static int getHeight(){
+        return getWindow().height;
+
+    }
+    public static void  setHeight(int height){
+        getWindow().height=height;
+
+    }
+
+    public static void  setWidth(int width){
+        getWindow().height=width;
+
+    }
+
 }
