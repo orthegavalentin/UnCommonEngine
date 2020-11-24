@@ -162,7 +162,7 @@ public class Window {
             if(dt>=0){
                 currentScene.update(dt);
             }
-          this.imGuiLayer.update(dt);
+          this.imGuiLayer.update(dt,currentScene);
             glfwSwapBuffers(glfwWindow); // swap the color buffers
 
             endTime= (float) glfwGetTime();

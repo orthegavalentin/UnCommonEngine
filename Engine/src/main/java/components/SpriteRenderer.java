@@ -3,6 +3,7 @@ package components;
 import Renderer.Texture;
 import UnCommon.Component;
 import UnCommon.Transform;
+import imgui.ImGui;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -62,6 +63,16 @@ public class SpriteRenderer extends Component {
 
     }
 
+    @Override
+    public void imgui() {
+        float[] imcolor={ color.x,color.y,color.z,color.w};
+        if(ImGui.colorPicker4("Color picker",imcolor)){
+            this.color.set(imcolor[0],imcolor[1],imcolor[2],imcolor[3]);
+            this.isDirty=true;
+
+        }
+
+    }
 
     public Vector4f getColor() {
 

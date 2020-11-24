@@ -1,5 +1,7 @@
 package UnCommon;
 
+import imgui.ImFontAtlas;
+import imgui.ImFontConfig;
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.callbacks.ImStrConsumer;
@@ -37,7 +39,7 @@ public class ImGuiLayer {
         // Initialize ImGuiIO config
         final ImGuiIO io = ImGui.getIO();
 
-        io.setIniFilename(null); // We don't want to save .ini file
+        io.setIniFilename("imgui.ini"); // We don't want to save .ini file
         io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
         io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors); // Mouse cursors to display while resizing windows etc.
         io.setBackendPlatformName("imgui_java_impl_glfw");
@@ -147,20 +149,20 @@ public class ImGuiLayer {
         // Fonts configuration
         // Read: https://raw.githubusercontent.com/ocornut/imgui/master/docs/FONTS.txt
 
-//        final ImFontAtlas fontAtlas = io.getFonts();
-//        final ImFontConfig fontConfig = new ImFontConfig(); // Natively allocated object, should be explicitly destroyed
+       final ImFontAtlas fontAtlas = io.getFonts();
+       final ImFontConfig fontConfig = new ImFontConfig(); // Natively allocated object, should be explicitly destroyed
 //
 //        // Glyphs could be added per-font as well as per config used globally like here
-//        fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesCyrillic());
+       fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesDefault());
 //
 //        // Add a default font, which is 'ProggyClean.ttf, 13px'
 //        fontAtlas.addFontDefault();
 //
 //        // Fonts merge example
 //        fontConfig.setMergeMode(true); // When enabled, all fonts added with this config would be merged with the previously added font
-//        fontConfig.setPixelSnapH(true);
+      fontConfig.setPixelSnapH(true);
 //
-//        fontAtlas.addFontFromMemoryTTF(loadFromResources("basis33.ttf"), 16, fontConfig);
+     fontAtlas.addFontFromFileTTF("assets/fonts/segoeui.ttf", 32,fontConfig);
 //
 //        fontConfig.setMergeMode(false);
 //        fontConfig.setPixelSnapH(false);
@@ -187,10 +189,11 @@ public class ImGuiLayer {
         // ImGui context should be created as well.
         imGuiGl3.init("#version 330 core");
     }
-public void update(float dt){
+public void update(float dt, Scene currentScene){
         System.out.println("updating imgui");
         startFrame((dt));
         ImGui.newFrame();
+        currentScene.sceneImgui();
         ImGui.showDemoWindow();
         ImGui.render();
         endFrame();

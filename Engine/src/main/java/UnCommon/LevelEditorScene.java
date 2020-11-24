@@ -1,10 +1,8 @@
 package UnCommon;
 
-import Renderer.Shader;
-import Renderer.Texture;
-import components.Sprite;
 import components.SpriteRenderer;
 import components.SpriteSheet;
+import imgui.ImGui;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import util.AssetPool;
@@ -29,8 +27,9 @@ public class LevelEditorScene extends Scene {
 
        this.camera = new Camera(new Vector2f(-250,0));
         obj1=new GameObject("object 1",new Transform(new Vector2f(100,100),new Vector2f(100,100)),2);
-       obj1.addComponent((new SpriteRenderer(sprites.getSprite(15))));
+       obj1.addComponent((new SpriteRenderer(new Vector4f(1,0,0,1))));
        this.addGameObjectToScene(obj1);
+       this.activegameObject=obj1;
          obj2=new GameObject("object 2",new Transform(new Vector2f(150,100),new Vector2f(100,100)),1);
         obj2.addComponent((new SpriteRenderer(sprites.getSprite(0))));
         this.addGameObjectToScene(obj2);
@@ -65,6 +64,14 @@ public class LevelEditorScene extends Scene {
         }
         this.renderer.render();
 
+
+    }
+
+    @Override
+    public void imgui() {
+        ImGui.begin("Test window");
+        ImGui.text("LeGM back at it ");
+        ImGui.end();
 
     }
 }
