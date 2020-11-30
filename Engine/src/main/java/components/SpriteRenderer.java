@@ -16,7 +16,7 @@ public class SpriteRenderer extends Component {
     //get notified when sprite changes position;
     // transient tells Json values that we dont want to serialize
     private transient Transform lastTrasform;
-    private transient boolean isDirty=false;
+    private transient boolean isDirty=true;
 
    /* public SpriteRenderer(Vector4f color) {
 
