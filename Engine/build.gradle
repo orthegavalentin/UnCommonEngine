@@ -28,7 +28,7 @@ project.ext.imguiNatives="imgui-java-natives-windows"
 
 '--warning-mode all'
 dependencies {
-
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation "io.imgui.java:binding:$imguiVersion"
     implementation "io.imgui.java:lwjgl3:$imguiVersion"
     runtimeOnly "io.imgui.java:natives-windows:$imguiVersion"

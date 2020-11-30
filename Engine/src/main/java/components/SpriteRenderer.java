@@ -9,15 +9,16 @@ import org.joml.Vector4f;
 
 public class SpriteRenderer extends Component {
 
-    Vector4f color;
+    private Vector4f color=new Vector4f(1,1,1,1);
 
-    private Sprite sprite;
+    private Sprite sprite=new Sprite();
 
     //get notified when sprite changes position;
-    private Transform lastTrasform;
-    private boolean isDirty=false;
+    // transient tells Json values that we dont want to serialize
+    private transient Transform lastTrasform;
+    private transient boolean isDirty=false;
 
-    public SpriteRenderer(Vector4f color) {
+   /* public SpriteRenderer(Vector4f color) {
 
         this.sprite = new Sprite(null);
         this.color = color;
@@ -29,7 +30,7 @@ public class SpriteRenderer extends Component {
         this.sprite = sprite;
         this.color = new Vector4f(1, 1, 1, 1);
       isDirty=true;
-    }
+    }*/
 
     public Texture getTexture() {
         return sprite.getTexture();

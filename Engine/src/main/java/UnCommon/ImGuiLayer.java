@@ -190,7 +190,7 @@ public class ImGuiLayer {
         imGuiGl3.init("#version 330 core");
     }
 public void update(float dt, Scene currentScene){
-        System.out.println("updating imgui");
+        //System.out.println("updating imgui");
         startFrame((dt));
         ImGui.newFrame();
         currentScene.sceneImgui();

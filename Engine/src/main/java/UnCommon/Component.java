@@ -1,7 +1,7 @@
 package UnCommon;
 
 public abstract class Component {
-    public GameObject gameObject;
+    public transient GameObject gameObject;
 
     public  void update(float dt){
 
