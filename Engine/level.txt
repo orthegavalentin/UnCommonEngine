@@ -6,12 +6,14 @@
         "type": "components.SpriteRenderer",
         "properties": {
           "color": {
-            "x": 0.58300245,
-            "y": 0.45650688,
-            "z": 0.78346455,
+            "x": 0.4399876,
+            "y": 0.49769586,
+            "z": 0.13990529,
             "w": 1.0
           },
           "sprite": {
+            "height": 0.0,
+            "width": 0.0,
             "texCoords": [
               {
                 "x": 1.0,
@@ -36,11 +38,11 @@
       {
         "type": "components.RigidBody",
         "properties": {
-          "colliderType": 16,
-          "friction": 31.8,
+          "colliderType": 0,
+          "friction": 0.8,
           "velocity": {
-            "x": 17.0,
-            "y": 113.5,
+            "x": 0.0,
+            "y": 0.5,
             "z": 0.0
           }
         }
@@ -48,8 +50,8 @@
     ],
     "transform": {
       "translate": {
-        "x": 355.14664,
-        "y": 100.0
+        "x": 100.0,
+        "y": 10.0
       },
       "scale": {
         "x": 100.0,
@@ -71,6 +73,8 @@
             "w": 1.0
           },
           "sprite": {
+            "height": 0.0,
+            "width": 0.0,
             "texture": {
               "filepath": "Assets/images/spritesheet.png",
               "textID": 2,
@@ -101,8 +105,8 @@
     ],
     "transform": {
       "translate": {
-        "x": 277.57315,
-        "y": 100.0
+        "x": 10.0,
+        "y": 10.0
       },
       "scale": {
         "x": 100.0,

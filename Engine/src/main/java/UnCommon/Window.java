@@ -19,32 +19,31 @@ public class Window {
     private long glfwWindow;
     private static Window window;
     private Vector4f color;
-   private static Scene currentScene;
-   private ImGuiLayer imGuiLayer;
+    private static Scene currentScene;
+    private ImGuiLayer imGuiLayer;
 
 
     private Window() {
         this.height = 1080;
         this.width = 1920;
         this.title = "UnCommon";
-        this.color=new Vector4f(1,1,1,1);
+        this.color = new Vector4f(1, 1, 1, 1);
 
     }
-    public static void changeScene(int newScene){
-        switch(newScene){
+
+    public static void changeScene(int newScene) {
+        switch (newScene) {
             case 0:
-                currentScene=new LevelEditorScene();
+                currentScene = new LevelEditorScene();
 
                 break;
             case 1:
-                currentScene=new LevelScene();
+                currentScene = new LevelScene();
 
                 break;
             default:
-                assert false :"unknown scene "+newScene+"**";
+                assert false : "unknown scene " + newScene + "**";
                 break;
-
-
 
 
         }
@@ -55,14 +54,14 @@ public class Window {
         currentScene.start();
     }
 
-    public static Window getWindow(){
-        if(Window.window==null){
-            Window.window=new Window();
+    public static Window getWindow() {
+        if (Window.window == null) {
+            Window.window = new Window();
         }
         return Window.window;
     }
 
-    public static Scene getScene(){
+    public static Scene getScene() {
         return getWindow().currentScene;
 
     }
@@ -88,7 +87,6 @@ public class Window {
 
 
     }
-
 
 
     public void init() {
@@ -135,23 +133,22 @@ public class Window {
         // bindings available for use.
         GL.createCapabilities();
         glEnable(GL_BLEND);
-        glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
-        this.imGuiLayer= new ImGuiLayer(glfwWindow);
-      this.imGuiLayer.initImGui();
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        this.imGuiLayer = new ImGuiLayer(glfwWindow);
+        this.imGuiLayer.initImGui();
         Window.changeScene(0);
 
     }
 
     public void loop() {
-        float beginTime= (float) glfwGetTime();
-        float endTime= (float) glfwGetTime();
-        float dt=-1.0f;
-
+        float beginTime = (float) glfwGetTime();
+        float endTime = (float) glfwGetTime();
+        float dt = -1.0f;
 
 
         // Set the clear color
-       // glClearColor((float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random());
-        glClearColor(this.color.x,this.color.y,this.color.z,this.color.w);
+        // glClearColor((float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random());
+        glClearColor(this.color.x, this.color.y, this.color.z, this.color.w);
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while (!glfwWindowShouldClose(glfwWindow)) {
@@ -159,19 +156,19 @@ public class Window {
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
-            glClear(GL_COLOR_BUFFER_BIT ); // clear the framebuffer
+            glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
             if (MouseListener.isDragging()) {
                 System.out.println("you are dragging bro");
             }
-            if(dt>=0){
+            if (dt >= 0) {
                 currentScene.update(dt);
             }
-          this.imGuiLayer.update(dt,currentScene);
+            this.imGuiLayer.update(dt, currentScene);
             glfwSwapBuffers(glfwWindow); // swap the color buffers
 
-            endTime= (float) glfwGetTime();
-            dt=endTime-beginTime;
-            beginTime=endTime;
+            endTime = (float) glfwGetTime();
+            dt = endTime - beginTime;
+            beginTime = endTime;
 
         }
         currentScene.saveExit();
@@ -179,21 +176,23 @@ public class Window {
 
     }
 
-    public static int getWidth(){
+    public static int getWidth() {
         return getWindow().width;
 
     }
-    public static int getHeight(){
+
+    public static int getHeight() {
         return getWindow().height;
 
     }
-    public static void  setHeight(int height){
-        getWindow().height=height;
+
+    public static void setHeight(int height) {
+        getWindow().height = height;
 
     }
 
-    public static void  setWidth(int width){
-        getWindow().height=width;
+    public static void setWidth(int width) {
+        getWindow().width= width;
 
     }
 
