@@ -1,10 +1,7 @@
 package UnCommon;
 
 import Renderer.DebugDraw;
-import components.RigidBody;
-import components.Sprite;
-import components.SpriteRenderer;
-import components.SpriteSheet;
+import components.*;
 import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
@@ -18,7 +15,8 @@ public class LevelEditorScene extends Scene {
     private GameObject obj1;
     private GameObject obj2;
     SpriteSheet sprites,sprites2;
-    MouseControl mouseControl=new MouseControl();
+
+    GameObject leveEditorStuff= new GameObject("levelEditor",new Transform(new Vector2f()),0 );
 
 
     public LevelEditorScene() {
@@ -28,6 +26,8 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void init() {
+        leveEditorStuff.addComponent(new MouseControl());
+        leveEditorStuff.addComponent(new GridLines());
         loadResources();
         this.camera = new Camera(new Vector2f(0, 0));
         sprites = AssetPool.getSpriteSheet("Assets/images/spritesheet.png");
@@ -74,16 +74,16 @@ public class LevelEditorScene extends Scene {
     float t=0.0f;
     @Override
     public void update(float dt) {
-        float x=((float)Math.sin(t)*200.0f)+600;
-        float y=((float)Math.cos(t)*200.0f)+400;
+        float x=((float)Math.sin(t)*50.0f)+1100;
+        float y=((float)Math.cos(t)*50.0f)+600;
         t+=0.05f;
-        DebugDraw.addLine2D(new Vector2f(600,400),new Vector2f(x,y),120);
+        DebugDraw.addLine2D(new Vector2f(1100,600),new Vector2f(x,y),130);
 
 
 
 
        gameObjects.get(1).transform.translate.x+=10*dt;
-        mouseControl.update(dt);
+       leveEditorStuff.update(dt);
 
         MouseListener.getOrthoY();
         //System.out.println("fps= "+ (1.0f/dt));
@@ -120,8 +120,8 @@ public class LevelEditorScene extends Scene {
             ImGui.pushID(i);
 
            if (ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)) {
-                GameObject object=Prefabs.generateSpriteObject(sprite,spriteWidth,spriteHeight);
-                mouseControl.pickUpObject(object,i);
+                GameObject object=Prefabs.generateSpriteObject(sprite,32,32);
+               leveEditorStuff.getComponent(MouseControl.class).pickUpObject(object,i);
                 System.out.println("button" + i + "clicked");
 
             }
