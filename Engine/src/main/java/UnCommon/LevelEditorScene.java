@@ -1,5 +1,6 @@
 package UnCommon;
 
+import Renderer.DebugDraw;
 import components.RigidBody;
 import components.Sprite;
 import components.SpriteRenderer;
@@ -8,6 +9,7 @@ import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
+import org.lwjgl.system.CallbackI;
 import scenes.Scene;
 import util.AssetPool;
 
@@ -38,14 +40,14 @@ public class LevelEditorScene extends Scene {
             return;
         }
 
-        obj1 = new GameObject("object 1", new Transform(new Vector2f(100, 100), new Vector2f(100, 100)), 2);
+        obj1 = new GameObject("object 1", new Transform(new Vector2f(100, 100), new Vector2f(32, 32)), 2);
         SpriteRenderer obj1SpriteRenderer = new SpriteRenderer();
         obj1SpriteRenderer.setColor(new Vector4f(1, 0, 0, 1));
         obj1.addComponent(obj1SpriteRenderer);
         obj1.addComponent(new RigidBody());
         this.addGameObjectToScene(obj1);
         this.activegameObject = obj1;
-        obj2 = new GameObject("object 2", new Transform(new Vector2f(150, 100), new Vector2f(100, 100)), 1);
+        obj2 = new GameObject("object 2", new Transform(new Vector2f(150, 100), new Vector2f(32, 32)), 1);
         SpriteRenderer obj2SpriteRenderer = new SpriteRenderer();
         obj2SpriteRenderer.setSprite(sprites.getSprite(0));
         obj2.addComponent(obj2SpriteRenderer);
@@ -69,9 +71,18 @@ public class LevelEditorScene extends Scene {
     private int spriteIndex = 15;
     private float spriteFlipTime = 0.8f;
     private float spriteFlipTimeleft = 0.0f;
-
+    float t=0.0f;
     @Override
     public void update(float dt) {
+        float x=((float)Math.sin(t)*200.0f)+600;
+        float y=((float)Math.cos(t)*200.0f)+400;
+        t+=0.05f;
+        DebugDraw.addLine2D(new Vector2f(600,400),new Vector2f(x,y),120);
+
+
+
+
+       gameObjects.get(1).transform.translate.x+=10*dt;
         mouseControl.update(dt);
 
         MouseListener.getOrthoY();

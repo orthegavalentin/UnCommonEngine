@@ -1,5 +1,6 @@
 package UnCommon;
 
+import Renderer.DebugDraw;
 import org.joml.Vector4f;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -155,11 +156,13 @@ public class Window {
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
+            DebugDraw.beginFrame();
             glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
             if (MouseListener.isDragging()) {
                 System.out.println("you are dragging bro");
             }
             if (dt >= 0) {
+                DebugDraw.draw();
                 currentScene.update(dt);
             }
             this.imGuiLayer.update(dt, currentScene);
