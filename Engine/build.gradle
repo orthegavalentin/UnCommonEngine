@@ -28,6 +28,10 @@ project.ext.imguiNatives="imgui-java-natives-windows"
 
 '--warning-mode all'
 dependencies {
+    //JUnit
+    testImplementation('junit:junit:4.13')
+
+    //gson serialization
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation "io.imgui.java:binding:$imguiVersion"
     implementation "io.imgui.java:lwjgl3:$imguiVersion"

@@ -16,6 +16,7 @@ public class LevelEditorScene extends Scene {
     private GameObject obj2;
     SpriteSheet sprites,sprites2;
 
+
     GameObject leveEditorStuff= new GameObject("levelEditor",new Transform(new Vector2f()),0 );
 
 
@@ -142,5 +143,8 @@ public class LevelEditorScene extends Scene {
         ImGui.end();
 
     }
+
+
+
 }
 

@@ -15,6 +15,12 @@ public class Line2D {
         this.color = color;
         this.lifetime = lifetime;
     }
+    public Line2D(Vector2f from, Vector2f to) {
+        this.from = from;
+        this.to = to;
+        this.color = new Vector3f(0,1,0);
+        this.lifetime = 5;
+    }
 
 
     public int beginFrame(){
@@ -24,13 +30,19 @@ public class Line2D {
 
     }
     public Vector2f getFrom() {
-        return from;
+        return this.from;
     }
 
     public Vector2f getTo() {
-        return to;
+        return this.to;
+    }
+    public Vector2f getStart() {
+        return this.from;
     }
 
+    public Vector2f getEnd() {
+        return this.to;
+    }
     public Vector3f getColor() {
         return color;
     }
