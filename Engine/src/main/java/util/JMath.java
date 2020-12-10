@@ -17,7 +17,7 @@ public class JMath {
         float sin=(float)Math.sin(Math.toRadians(angleDeg));
 
         float xRotated=(x*cos)-(y*sin);
-        float yRotated=(y*sin)+(y*cos);
+        float yRotated=(x*sin)+(y*cos);
         //returning it back to its point
         xRotated+=origin.x;
         yRotated+=origin.y;
