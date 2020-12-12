@@ -30,7 +30,7 @@ public class LevelEditorScene extends Scene {
     @Override
     public void init() {
         leveEditorStuff.addComponent(new MouseControl());
-        //leveEditorStuff.addComponent(new GridLines());
+        leveEditorStuff.addComponent(new GridLines());
         loadResources();
         obj2SpriteRenderer = new SpriteRenderer();
 
