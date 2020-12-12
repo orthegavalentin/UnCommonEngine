@@ -1,6 +1,7 @@
 package UnCommon;
 
 import Renderer.DebugDraw;
+import Renderer.FrameBuffer;
 import org.joml.Vector4f;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -21,6 +22,8 @@ public class Window {
     private Vector4f color;
     private static Scene currentScene;
     private ImGuiLayer imGuiLayer;
+    private FrameBuffer frameBuffer;
+
 
 
     private Window() {
@@ -136,6 +139,7 @@ public class Window {
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         this.imGuiLayer = new ImGuiLayer(glfwWindow);
         this.imGuiLayer.initImGui();
+       this.frameBuffer=new FrameBuffer(1920,1080);
         Window.changeScene(0);
 
     }
@@ -161,10 +165,12 @@ public class Window {
             if (MouseListener.isDragging()) {
                 System.out.println("you are dragging bro");
             }
+          // this.frameBuffer.bind();
             if (dt >= 0) {
                 DebugDraw.draw();
                 currentScene.update(dt);
             }
+           this.frameBuffer.unBind();
             this.imGuiLayer.update(dt, currentScene);
             glfwSwapBuffers(glfwWindow); // swap the color buffers
 

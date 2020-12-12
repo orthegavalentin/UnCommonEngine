@@ -11,14 +11,31 @@ import static org.lwjgl.stb.STBImage.stbi_load;
 
 public class Texture {
     private String filepath;
-    private int textID;
+    private transient int textID;
     private int height, width;
 
-   /* public Texture(String filepath) {
+    public Texture(int width, int height) {
+        this.filepath="generated";
+        textID = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, textID);
 
 
-    }*/
-    public void init(String filepath){
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
+                0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+    }
+
+    public Texture() {
+        textID = -1;
+        width = -1;
+        height = -1;
+    }
+
+    /* public Texture(String filepath) {
+
+
+     }*/
+    public void init(String filepath) {
         this.filepath = filepath;
 
         //genrate texture on GPU
@@ -89,5 +106,18 @@ public class Texture {
 
     public int getId() {
         return this.textID;
+    }
+
+    public String getFilepath() {
+        return this.filepath;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Texture)) return false;
+        Texture otex = (Texture) obj;
+        return otex.getWidth() == this.getWidth() && otex.getHeight() == this.getHeight()
+                && otex.getId() == this.textID && otex.getFilepath().equals(this.filepath);
     }
 }

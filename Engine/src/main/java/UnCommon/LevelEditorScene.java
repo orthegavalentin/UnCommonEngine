@@ -15,6 +15,7 @@ import util.AssetPool;
 public class LevelEditorScene extends Scene {
     private GameObject obj1;
     private GameObject obj2;
+    SpriteRenderer obj2SpriteRenderer;
     SpriteSheet sprites, sprites2;
 
 
@@ -31,6 +32,7 @@ public class LevelEditorScene extends Scene {
         leveEditorStuff.addComponent(new MouseControl());
         //leveEditorStuff.addComponent(new GridLines());
         loadResources();
+        obj2SpriteRenderer = new SpriteRenderer();
 
         this.camera = new Camera(new Vector2f(0, 0));
         sprites = AssetPool.getSpriteSheet("Assets/images/spritesheet.png");
@@ -38,7 +40,9 @@ public class LevelEditorScene extends Scene {
 
 
         if (levelLoaded) {
-            this.activegameObject = gameObjects.get(0);
+            if (gameObjects.size() > 0) {
+                this.activegameObject = gameObjects.get(0);
+            }
 
             return;
         }
@@ -51,7 +55,7 @@ public class LevelEditorScene extends Scene {
         this.addGameObjectToScene(obj1);
         this.activegameObject = obj1;
         obj2 = new GameObject("object 2", new Transform(new Vector2f(150, 100), new Vector2f(32, 32)), 1);
-        SpriteRenderer obj2SpriteRenderer = new SpriteRenderer();
+
         obj2SpriteRenderer.setSprite(sprites.getSprite(15));
         obj2.addComponent(obj2SpriteRenderer);
         this.addGameObjectToScene(obj2);
@@ -68,17 +72,39 @@ public class LevelEditorScene extends Scene {
                 new SpriteSheet(AssetPool.getTexture("Assets/images/decorationsAndBlocks.png"),
                         16, 16, 81, 0));
 
+        for (GameObject obj : gameObjects) {
+            if (obj.getComponent(SpriteRenderer.class) != null) {
+                SpriteRenderer spr = obj.getComponent(SpriteRenderer.class);
+                if (spr.getTexture() != null) {
+                    spr.setTextur(AssetPool.getTexture(spr.getTexture().getFilepath()));
+                }
+
+            }
+
+        }
     }
 
     //animation test
     private int spriteIndex = 15;
-    private float spriteFlipTime = 0.8f;
+    private float spriteFlipTime = 0.1f;
     private float spriteFlipTimeleft = 0.0f;
     float t = 0.0f;
     float angle = 0.0f;
 
     @Override
     public void update(float dt) {
+        spriteFlipTimeleft -= dt;
+
+        if (spriteFlipTimeleft <= 0) {
+            spriteFlipTimeleft = spriteFlipTime;
+            spriteIndex++;
+            if (spriteIndex > 17) {
+                spriteIndex = 15;
+
+            }
+            gameObjects.get(1).getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(spriteIndex));
+        }
+
         float x = ((float) Math.sin(t) * 50.0f) + 1100;
         float y = ((float) Math.cos(t) * 50.0f) + 600;
         t += 0.05f;
@@ -87,10 +113,10 @@ public class LevelEditorScene extends Scene {
 
         angle += 100 * dt;
 
-        DebugDraw.addCircle(new Vector2f(300, 300),64,new Vector3f(1,1,0),1);
+        DebugDraw.addCircle(new Vector2f(300, 300), 64, new Vector3f(1, 1, 0), 1);
 
 
-        gameObjects.get(1).transform.translate.x += 10 * dt;
+        gameObjects.get(1).transform.translate.x += 50 * dt;
         leveEditorStuff.update(dt);
 
         MouseListener.getOrthoY();
