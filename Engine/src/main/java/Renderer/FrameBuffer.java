@@ -8,7 +8,7 @@ public class FrameBuffer {
     private int fboID=0;
 
     public int getTextureId() {
-        return fboID;
+        return texture.getId();
     }
 
 
@@ -29,7 +29,7 @@ public class FrameBuffer {
 
     //create renderbuffer and sotre depth info
         int rboID=glGenRenderbuffers();
-        glBindBuffer(GL_RENDERBUFFER,rboID);
+        glBindRenderbuffer(GL_RENDERBUFFER,rboID);
         glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT32,width,height);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,rboID);
 

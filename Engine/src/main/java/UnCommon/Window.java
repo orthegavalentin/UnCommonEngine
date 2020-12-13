@@ -14,6 +14,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
+
 public class Window {
     private int height, width;
     private String title;
@@ -67,6 +68,13 @@ public class Window {
     public static Scene getScene() {
         return getWindow().currentScene;
 
+    }
+
+    public static FrameBuffer getFrameBuffer() {
+        return getWindow().frameBuffer;
+    }
+    public static float getTargetAspectRatio() {
+        return 16.0f/9.0f;
     }
 
     /**
@@ -140,6 +148,7 @@ public class Window {
         this.imGuiLayer = new ImGuiLayer(glfwWindow);
         this.imGuiLayer.initImGui();
        this.frameBuffer=new FrameBuffer(1920,1080);
+       glViewport(0,0,1920,1080);
         Window.changeScene(0);
 
     }
@@ -161,11 +170,12 @@ public class Window {
             // invoked during this call.
             glfwPollEvents();
             DebugDraw.beginFrame();
+            this.frameBuffer.bind();
             glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
             if (MouseListener.isDragging()) {
                 System.out.println("you are dragging bro");
             }
-          // this.frameBuffer.bind();
+
             if (dt >= 0) {
                 DebugDraw.draw();
                 currentScene.update(dt);

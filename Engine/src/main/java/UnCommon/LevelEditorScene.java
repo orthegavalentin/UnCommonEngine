@@ -108,19 +108,19 @@ public class LevelEditorScene extends Scene {
         float x = ((float) Math.sin(t) * 50.0f) + 1100;
         float y = ((float) Math.cos(t) * 50.0f) + 600;
         t += 0.05f;
-        DebugDraw.addLine2D(new Vector2f(1100, 600), new Vector2f(x, y), 100);
-        DebugDraw.addBox2D(new Vector2f(200, 200), new Vector2f(64, 32), angle, new Vector3f(0.0f, 1.0f, 0.0f), 20);
+       // DebugDraw.addLine2D(new Vector2f(1100, 600), new Vector2f(x, y), 100);
+       // DebugDraw.addBox2D(new Vector2f(200, 200), new Vector2f(64, 32), angle, new Vector3f(0.0f, 1.0f, 0.0f), 20);
 
         angle += 100 * dt;
 
-        DebugDraw.addCircle(new Vector2f(300, 300), 64, new Vector3f(1, 1, 0), 1);
+      //  DebugDraw.addCircle(new Vector2f(300, 300), 64, new Vector3f(1, 1, 0), 1);
 
 
         gameObjects.get(1).transform.translate.x += 50 * dt;
         leveEditorStuff.update(dt);
 
         MouseListener.getOrthoY();
-        //System.out.println("fps= "+ (1.0f/dt));
+        System.out.println("fps= "+ (1.0f/dt));
 
 
         for (GameObject o : this.gameObjects) {

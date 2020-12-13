@@ -1,5 +1,6 @@
 package UnCommon;
 
+import editor.GameViewWindow;
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
 import imgui.ImGui;
@@ -205,9 +206,10 @@ public class ImGuiLayer {
         //System.out.println("updating imgui");
         startFrame((dt));
         ImGui.newFrame();
-      setUpDocSpace();
+        setUpDocSpace();
         currentScene.sceneImgui();
         ImGui.showDemoWindow();
+        GameViewWindow.imgui();
         ImGui.end();
         ImGui.render();
 
@@ -250,7 +252,7 @@ public class ImGuiLayer {
     }
 
     private void setUpDocSpace() {
-        int windowFlags = ImGuiWindowFlags.MenuBar ;
+        int windowFlags = ImGuiWindowFlags.MenuBar;
         ImGui.setNextWindowPos(0.0f, 0.0f, ImGuiCond.Always);
         ImGui.setNextWindowSize(Window.getWidth(), Window.getHeight());
         ImGui.pushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
@@ -264,7 +266,6 @@ public class ImGuiLayer {
 
         //DocSpace
         ImGui.dockSpace(ImGui.getID("Dockspace"));
-
 
 
     }
