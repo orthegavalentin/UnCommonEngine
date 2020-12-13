@@ -35,7 +35,7 @@ Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
 j  org.lwjgl.opengl.GL11C.nglTexImage2D(IIIIIIIIJ)V+0
 j  org.lwjgl.opengl.GL11C.glTexImage2D(IIIIIIIILjava/nio/ByteBuffer;)V+17
 j  org.lwjgl.opengl.GL11.glTexImage2D(IIIIIIIILjava/nio/ByteBuffer;)V+14
-j  Renderer.Texture.<init>(Ljava/lang/String;)V+132
+j  renderer.Texture.<init>(Ljava/lang/String;)V+132
 j  UnCommon.LevelEditorScene.init()V+45
 j  UnCommon.Window.changeScene(I)V+41
 j  UnCommon.Window.init()V+162
@@ -450,8 +450,8 @@ Event: 0.746 loading class org/lwjgl/system/APIUtil$Encoder
 Event: 0.746 loading class org/lwjgl/system/APIUtil$Encoder done
 Event: 0.746 loading class org/lwjgl/system/APIUtil$Encoder
 Event: 0.746 loading class org/lwjgl/system/APIUtil$Encoder done
-Event: 0.760 loading class Renderer/Texture
-Event: 0.760 loading class Renderer/Texture done
+Event: 0.760 loading class renderer/Texture
+Event: 0.760 loading class renderer/Texture done
 Event: 0.761 loading class org/lwjgl/stb/STBImage
 Event: 0.761 loading class org/lwjgl/stb/STBImage done
 Event: 0.763 loading class org/lwjgl/stb/LibSTB

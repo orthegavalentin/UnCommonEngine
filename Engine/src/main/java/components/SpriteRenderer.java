@@ -1,6 +1,6 @@
 package components;
 
-import Renderer.Texture;
+import renderer.Texture;
 import UnCommon.Transform;
 import imgui.ImGui;
 import org.joml.Vector2f;

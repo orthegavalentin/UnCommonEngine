@@ -1,6 +1,6 @@
 package physics2D;
 
-import Renderer.Line2D;
+import renderer.Line2D;
 import org.joml.Vector2f;
 import org.junit.Test;
 import physics2D.rigidbody.IntersectorDetector2D;

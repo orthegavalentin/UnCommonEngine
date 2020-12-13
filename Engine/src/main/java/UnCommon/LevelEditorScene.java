@@ -1,13 +1,10 @@
 package UnCommon;
 
-import Renderer.DebugDraw;
 import components.*;
 import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 import org.joml.Vector4f;
-import org.lwjgl.system.CallbackI;
 import scenes.Scene;
 import util.AssetPool;
 
@@ -116,11 +113,11 @@ public class LevelEditorScene extends Scene {
       //  DebugDraw.addCircle(new Vector2f(300, 300), 64, new Vector3f(1, 1, 0), 1);
 
 
-        gameObjects.get(1).transform.translate.x += 50 * dt;
+       // gameObjects.get(1).transform.translate.x += 50 * dt;
         leveEditorStuff.update(dt);
 
         MouseListener.getOrthoY();
-        System.out.println("fps= "+ (1.0f/dt));
+     //   System.out.println("fps= "+ (1.0f/dt));
 
 
         for (GameObject o : this.gameObjects) {
@@ -128,8 +125,14 @@ public class LevelEditorScene extends Scene {
 
 
         }
-        this.renderer.render();
 
+
+
+    }
+
+    @Override
+    public void render() {
+        this.renderer.render();
 
     }
 

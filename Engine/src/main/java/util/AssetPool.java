@@ -1,7 +1,7 @@
 package util;
 
-import Renderer.Shader;
-import Renderer.Texture;
+import renderer.Shader;
+import renderer.Texture;
 import components.SpriteSheet;
 
 import java.io.File;

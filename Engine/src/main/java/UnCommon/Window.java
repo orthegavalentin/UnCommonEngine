@@ -1,13 +1,17 @@
 package UnCommon;
 
-import Renderer.DebugDraw;
-import Renderer.FrameBuffer;
+import renderer.DebugDraw;
+import renderer.FrameBuffer;
+import renderer.PickingTexture;
+import renderer.Renderer;
+import renderer.Shader;
 import org.joml.Vector4f;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import scenes.LevelScene;
 import scenes.Scene;
+import util.AssetPool;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -24,14 +28,14 @@ public class Window {
     private static Scene currentScene;
     private ImGuiLayer imGuiLayer;
     private FrameBuffer frameBuffer;
-
+    private PickingTexture pickingTexture;
 
 
     private Window() {
         this.height = 1080;
         this.width = 1920;
         this.title = "UnCommon";
-        this.color = new Vector4f(1, 1, 1, 1);
+        this.color = new Vector4f(209 / (float) 255, 216 / (float) 255, 184/ (float) 255, 1);
 
     }
 
@@ -73,8 +77,9 @@ public class Window {
     public static FrameBuffer getFrameBuffer() {
         return getWindow().frameBuffer;
     }
+
     public static float getTargetAspectRatio() {
-        return 16.0f/9.0f;
+        return 16.0f / 9.0f;
     }
 
     /**
@@ -147,8 +152,9 @@ public class Window {
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         this.imGuiLayer = new ImGuiLayer(glfwWindow);
         this.imGuiLayer.initImGui();
-       this.frameBuffer=new FrameBuffer(1920,1080);
-       glViewport(0,0,1920,1080);
+        this.frameBuffer = new FrameBuffer(1920, 1080);
+        this.pickingTexture = new PickingTexture(1920, 1080);
+        glViewport(0, 0, 1920, 1080);
         Window.changeScene(0);
 
     }
@@ -157,6 +163,8 @@ public class Window {
         float beginTime = (float) glfwGetTime();
         float endTime = (float) glfwGetTime();
         float dt = -1.0f;
+        Shader defaulShader = AssetPool.getShader("assets/shaders/default.glsl");
+        Shader pickingShader = AssetPool.getShader("assets/shaders/pickingShader.glsl");
 
 
         // Set the clear color
@@ -169,6 +177,32 @@ public class Window {
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
+
+            //render pass 1 .render to picking texture
+            glDisable(GL_BLEND);
+            pickingTexture.enableWriting();
+
+
+            glViewport(0, 0, 1920, 1080);
+            glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            Renderer.bindShader(pickingShader);
+            currentScene.render();
+
+
+            if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)) {
+                int x = (int) MouseListener.getScreenX();
+                int y = (int) MouseListener.getScreeny();
+                System.out.println("you clicked on object"+pickingTexture.readPixel(x, y));
+
+            }
+
+            pickingTexture.disableWriting();
+            glEnable(GL_BLEND);
+
+
+            // render pass 2. Render to picking texture
+            glClearColor(this.color.x, this.color.y, this.color.z, this.color.w);
             DebugDraw.beginFrame();
             this.frameBuffer.bind();
             glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
@@ -178,9 +212,11 @@ public class Window {
 
             if (dt >= 0) {
                 DebugDraw.draw();
+                Renderer.bindShader(defaulShader);
                 currentScene.update(dt);
+                currentScene.render();
             }
-           this.frameBuffer.unBind();
+            this.frameBuffer.unBind();
             this.imGuiLayer.update(dt, currentScene);
             glfwSwapBuffers(glfwWindow); // swap the color buffers
 
@@ -210,7 +246,7 @@ public class Window {
     }
 
     public static void setWidth(int width) {
-        getWindow().width= width;
+        getWindow().width = width;
 
     }
 

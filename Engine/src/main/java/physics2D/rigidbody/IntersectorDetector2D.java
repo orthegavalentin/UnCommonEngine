@@ -1,12 +1,9 @@
 package physics2D.rigidbody;
 
-import Renderer.Line2D;
+import renderer.Line2D;
 import org.joml.Vector2f;
-import org.lwjgl.system.CallbackI;
 import physics2D.primitives.*;
 import util.JMath;
-
-import java.util.Vector;
 
 public class IntersectorDetector2D {
 

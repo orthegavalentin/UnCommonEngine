@@ -1,6 +1,6 @@
 package scenes;
 
-import Renderer.Renderer;
+import renderer.Renderer;
 import UnCommon.Camera;
 import UnCommon.GameObject;
 import UnCommon.GameOjectDeserialiser;
@@ -32,6 +32,7 @@ public abstract class Scene {
     }
 
     public abstract void update(float dt);
+    public abstract void render();
 
     public void init() {
     }

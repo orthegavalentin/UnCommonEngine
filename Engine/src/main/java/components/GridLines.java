@@ -1,6 +1,6 @@
 package components;
 
-import Renderer.DebugDraw;
+import renderer.DebugDraw;
 import UnCommon.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;

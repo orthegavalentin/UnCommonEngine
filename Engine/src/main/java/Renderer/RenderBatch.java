@@ -1,10 +1,9 @@
-package Renderer;
+package renderer;
 
 import UnCommon.Window;
 import components.SpriteRenderer;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
-import util.AssetPool;
 
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class RenderBatch  implements Comparable<RenderBatch>{
+public class RenderBatch implements Comparable<RenderBatch> {
     //Vertex
     //=======
     //Pos                    color                         tex coords      tex id
@@ -24,13 +23,16 @@ public class RenderBatch  implements Comparable<RenderBatch>{
     private final int COLOR_SIZE = 4;
     private final int TEX_COORDS_SIZE = 2;
     private final int TEX_ID_SIZE = 1;
+    private final int ENTITY_ID_SIZE = 1;
 
 
     private final int POS_OFFSET = 0;
     private final int COLOR_OFFSET = POS_OFFSET + POS_SIZE * Float.BYTES;
     private final int TEX_COORDS_OFFSET = COLOR_OFFSET + COLOR_SIZE * Float.BYTES;
     private final int TEX_ID_OFFSET = TEX_COORDS_OFFSET + TEX_COORDS_SIZE * Float.BYTES;
-    private final int VERTEX_SIZE = 9;
+    private final int ENTITY_ID_OFFSET = TEX_ID_OFFSET + TEX_ID_SIZE * Float.BYTES;
+
+    private final int VERTEX_SIZE = 10;
     private final int VERTEX_SIZE_BYTES = VERTEX_SIZE * Float.BYTES;
 
     private List<Texture> textures;
@@ -40,17 +42,18 @@ public class RenderBatch  implements Comparable<RenderBatch>{
     private float[] vertices;
     private int vaoID, vboID;
     private int maxBatchSize;
-    private Shader shader;
+
+    // private Shader shader;
     private int[] texSlots = {0, 1, 2, 3, 4, 5, 6, 7};
     private int zIndex;
 
-    public RenderBatch(int maxBatchSize,int zIndex) {
+    public RenderBatch(int maxBatchSize, int zIndex) {
         //avoiding creation of a bunch of shader for nothing
-        shader = AssetPool.getShader("assets/shaders/default.glsl");
+
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
         this.textures = new ArrayList<>();
-        this.zIndex=zIndex;
+        this.zIndex = zIndex;
 
         vertices = new float[maxBatchSize * 4 * VERTEX_SIZE];
         this.numSprites = 0;
@@ -121,6 +124,16 @@ public class RenderBatch  implements Comparable<RenderBatch>{
                 TEX_ID_OFFSET
         );
         glEnableVertexAttribArray(3);
+        //Enable the buffer attribute pointer
+        glVertexAttribPointer(
+                4,
+                ENTITY_ID_SIZE,
+                GL_FLOAT,
+                false,
+                VERTEX_SIZE_BYTES,
+                ENTITY_ID_OFFSET
+        );
+        glEnableVertexAttribArray(4);
 
 
     }
@@ -168,7 +181,7 @@ public class RenderBatch  implements Comparable<RenderBatch>{
         int texId = 0;
         if (sprite.getTexture() != null) {
             for (int i = 0; i < textures.size(); i++) {
-                if (textures.get(i).equals( sprite.getTexture())) {
+                if (textures.get(i).equals(sprite.getTexture())) {
                     texId = i + 1;
                     break;
 
@@ -212,6 +225,9 @@ public class RenderBatch  implements Comparable<RenderBatch>{
             //load texture id
             vertices[offset + 8] = texId;
 
+            //load entity id
+            vertices[offset + 9] =sprite.gameObject.getUid()+1 ;
+
 
             offset += VERTEX_SIZE;
 
@@ -242,7 +258,7 @@ public class RenderBatch  implements Comparable<RenderBatch>{
 
 
         //use our shader
-
+        Shader shader = Renderer.getBoundShader();
         shader.use();
         shader.uploadMat4f("uProjection", Window.getScene().camera().getProjectionMatrix());
         shader.uploadMat4f("uView", Window.getScene().camera().getViewMatrix());
@@ -301,7 +317,7 @@ public class RenderBatch  implements Comparable<RenderBatch>{
         return this.textures.contains(tex);
     }
 
-    public int getzIndex(){
+    public int getzIndex() {
         return this.zIndex;
     }
 
@@ -309,6 +325,6 @@ public class RenderBatch  implements Comparable<RenderBatch>{
     @Override
     public int compareTo(RenderBatch o) {
 
-        return Integer.compare(this.zIndex,o.getzIndex());
+        return Integer.compare(this.zIndex, o.getzIndex());
     }
 }

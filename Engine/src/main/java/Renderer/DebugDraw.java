@@ -1,4 +1,4 @@
-package Renderer;
+package renderer;
 
 import UnCommon.Window;
 import org.joml.Vector2f;
