@@ -37,9 +37,6 @@ public class LevelEditorScene extends Scene {
 
 
         if (levelLoaded) {
-            if (gameObjects.size() > 0) {
-                this.activegameObject = gameObjects.get(0);
-            }
 
             return;
         }
@@ -50,7 +47,7 @@ public class LevelEditorScene extends Scene {
         obj1.addComponent(obj1SpriteRenderer);
 
         this.addGameObjectToScene(obj1);
-        this.activegameObject = obj1;
+
         obj2 = new GameObject("object 2", new Transform(new Vector2f(150, 100), new Vector2f(32, 32)), 1);
 
         obj2SpriteRenderer.setSprite(sprites.getSprite(15));

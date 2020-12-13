@@ -150,11 +150,13 @@ public class Window {
         GL.createCapabilities();
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-        this.imGuiLayer = new ImGuiLayer(glfwWindow);
-        this.imGuiLayer.initImGui();
+
         this.frameBuffer = new FrameBuffer(1920, 1080);
         this.pickingTexture = new PickingTexture(1920, 1080);
         glViewport(0, 0, 1920, 1080);
+
+        this.imGuiLayer = new ImGuiLayer(glfwWindow,pickingTexture);
+        this.imGuiLayer.initImGui();
         Window.changeScene(0);
 
     }
@@ -190,12 +192,7 @@ public class Window {
             currentScene.render();
 
 
-            if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)) {
-                int x = (int) MouseListener.getScreenX();
-                int y = (int) MouseListener.getScreeny();
-                System.out.println("you clicked on object"+pickingTexture.readPixel(x, y));
 
-            }
 
             pickingTexture.disableWriting();
             glEnable(GL_BLEND);
