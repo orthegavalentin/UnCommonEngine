@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="physics2D.collisionDetectorTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-12-13T20:14:26" hostname="LAPTOP-UDPPH953" time="0.027">
+<testsuite name="physics2D.collisionDetectorTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-12-14T16:27:49" hostname="LAPTOP-UDPPH953" time="0.013">
   <properties/>
-  <testcase name="pointOnLine2DShouldReturnTrueTest" classname="physics2D.collisionDetectorTests" time="0.024"/>
-  <testcase name="pointOnLine2DShouldReturnTrueTestTwo" classname="physics2D.collisionDetectorTests" time="0.001"/>
-  <testcase name="pointOnVerticalLineShouldReturnTrue" classname="physics2D.collisionDetectorTests" time="0.002"/>
+  <testcase name="pointOnLine2DShouldReturnTrueTest" classname="physics2D.collisionDetectorTests" time="0.011"/>
+  <testcase name="pointOnLine2DShouldReturnTrueTestTwo" classname="physics2D.collisionDetectorTests" time="0.0"/>
+  <testcase name="pointOnVerticalLineShouldReturnTrue" classname="physics2D.collisionDetectorTests" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

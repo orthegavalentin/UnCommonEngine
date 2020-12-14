@@ -132,7 +132,7 @@ public class MouseListener {
 
     public static float getOrthoX(){
         float currentX=getX()-getInstance().gameViewPortPos.x;
-        currentX=(currentX/(float)getInstance().gameViewPortSize.x)*2.0f-1.0f;
+        currentX=(currentX/getInstance().gameViewPortSize.x)*2.0f-1.0f;
         Vector4f tmp=new Vector4f(currentX,0,0,1);
         Camera camera=Window.getScene().camera();
         Matrix4f viewProjection=new Matrix4f();

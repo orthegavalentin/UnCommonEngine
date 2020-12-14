@@ -216,6 +216,7 @@ public class Window {
             this.frameBuffer.unBind();
             this.imGuiLayer.update(dt, currentScene);
             glfwSwapBuffers(glfwWindow); // swap the color buffers
+            MouseListener.endFrame();
 
             endTime = (float) glfwGetTime();
             dt = endTime - beginTime;

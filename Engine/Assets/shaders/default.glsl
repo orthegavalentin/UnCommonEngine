@@ -18,7 +18,7 @@ void main(){
     fColor=aColor;
     fTexture=aTexture;
     fTextureID=aTextureID;
-    gl_Position=uProjection*vec4(aPos, 1.0);
+    gl_Position=uProjection*uView*vec4(aPos, 1.0);
 
 }
     #type fragment

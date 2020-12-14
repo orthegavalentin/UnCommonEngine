@@ -26,12 +26,14 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void init() {
+        this.camera = new Camera(new Vector2f(0.3f, 0.4f));
         leveEditorStuff.addComponent(new MouseControl());
         leveEditorStuff.addComponent(new GridLines());
+        leveEditorStuff.addComponent(new EditorCamera(this.camera));
         loadResources();
         obj2SpriteRenderer = new SpriteRenderer();
 
-        this.camera = new Camera(new Vector2f(0, 0));
+
         sprites = AssetPool.getSpriteSheet("Assets/images/spritesheet.png");
         sprites2 = AssetPool.getSpriteSheet("Assets/images/decorationsAndBlocks.png");
 
@@ -87,6 +89,8 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void update(float dt) {
+        leveEditorStuff.update(dt);
+        this.camera.adjustProjection();
         spriteFlipTimeleft -= dt;
 
         if (spriteFlipTimeleft <= 0) {
@@ -111,7 +115,7 @@ public class LevelEditorScene extends Scene {
 
 
        // gameObjects.get(1).transform.translate.x += 50 * dt;
-        leveEditorStuff.update(dt);
+
 
         MouseListener.getOrthoY();
      //   System.out.println("fps= "+ (1.0f/dt));

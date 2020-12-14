@@ -21,7 +21,7 @@ void main(){
     fTexture=aTexture;
     fTextureID=aTextureID;
     fEntityId=aEntityId;
-    gl_Position=uProjection*vec4(aPos, 1.0);
+    gl_Position=uProjection*uView*vec4(aPos, 1.0);
 
 }
     #type fragment
