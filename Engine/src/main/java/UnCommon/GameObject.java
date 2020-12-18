@@ -13,6 +13,7 @@ public class GameObject {
     public Transform transform;
     //to implement layers
     int zIndex;
+    private boolean doSerialisation=true;
 
 
    /* public GameObject(String name) {
@@ -118,5 +119,13 @@ public class GameObject {
 
     public List<Component> getAllComponents() {
         return this.components;
+    }
+
+    public void setNoSerialize() {
+        this.doSerialisation=false;
+    }
+
+    public boolean getDoSerialization(){
+        return this.doSerialisation;
     }
 }

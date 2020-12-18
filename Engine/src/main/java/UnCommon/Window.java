@@ -248,4 +248,7 @@ public class Window {
 
     }
 
+    public static  ImGuiLayer getImguiLayer() {
+
+    return getWindow().imGuiLayer;}
 }

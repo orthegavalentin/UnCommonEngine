@@ -16,8 +16,8 @@ public class LevelEditorScene extends Scene {
     SpriteSheet sprites, sprites2;
 
 
-    GameObject leveEditorStuff = new GameObject("levelEditor", new Transform(new Vector2f()), 0);
-
+    GameObject leveEditorStuff = new GameObject("levelEditor", new Transform(new Vector2f()), 3);
+    GameObject leveEditorStuff2 = new GameObject("levelEditor", new Transform(new Vector2f()), 0);
 
     public LevelEditorScene() {
 
@@ -26,16 +26,20 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void init() {
+        loadResources();
+        sprites = AssetPool.getSpriteSheet("Assets/images/spritesheet.png");
+        sprites2 = AssetPool.getSpriteSheet("Assets/images/decorationsAndBlocks.png");
+
+        SpriteSheet gizmos = AssetPool.getSpriteSheet("Assets/images/gizmos.png");
+
+
         this.camera = new Camera(new Vector2f(0.3f, 0.4f));
         leveEditorStuff.addComponent(new MouseControl());
         leveEditorStuff.addComponent(new GridLines());
         leveEditorStuff.addComponent(new EditorCamera(this.camera));
-        loadResources();
+        leveEditorStuff.addComponent(new TranslateGizmo(gizmos.getSprite(1),Window.getImguiLayer().getPropertiesWindow()));
+        leveEditorStuff.start();
         obj2SpriteRenderer = new SpriteRenderer();
-
-
-        sprites = AssetPool.getSpriteSheet("Assets/images/spritesheet.png");
-        sprites2 = AssetPool.getSpriteSheet("Assets/images/decorationsAndBlocks.png");
 
 
         if (levelLoaded) {
@@ -43,14 +47,14 @@ public class LevelEditorScene extends Scene {
             return;
         }
 
-        obj1 = new GameObject("object 1", new Transform(new Vector2f(100, 100), new Vector2f(32, 32)), 2);
+        obj1 = new GameObject("object 1", new Transform(new Vector2f(100, 100), new Vector2f(32, 32)), 0);
         SpriteRenderer obj1SpriteRenderer = new SpriteRenderer();
         obj1SpriteRenderer.setColor(new Vector4f(1, 0, 0, 1));
         obj1.addComponent(obj1SpriteRenderer);
 
         this.addGameObjectToScene(obj1);
 
-        obj2 = new GameObject("object 2", new Transform(new Vector2f(150, 100), new Vector2f(32, 32)), 1);
+        obj2 = new GameObject("object 2", new Transform(new Vector2f(150, 100), new Vector2f(32, 32)), 0);
 
         obj2SpriteRenderer.setSprite(sprites.getSprite(15));
         obj2.addComponent(obj2SpriteRenderer);
@@ -67,6 +71,9 @@ public class LevelEditorScene extends Scene {
         AssetPool.addSpriteSheet("Assets/images/decorationsAndBlocks.png",
                 new SpriteSheet(AssetPool.getTexture("Assets/images/decorationsAndBlocks.png"),
                         16, 16, 81, 0));
+        AssetPool.addSpriteSheet("Assets/images/gizmos.png",
+                new SpriteSheet(AssetPool.getTexture("Assets/images/gizmos.png"),
+                        24, 48, 3, 0));
 
         for (GameObject obj : gameObjects) {
             if (obj.getComponent(SpriteRenderer.class) != null) {
@@ -91,34 +98,16 @@ public class LevelEditorScene extends Scene {
     public void update(float dt) {
         leveEditorStuff.update(dt);
         this.camera.adjustProjection();
-        spriteFlipTimeleft -= dt;
-
-        if (spriteFlipTimeleft <= 0) {
-            spriteFlipTimeleft = spriteFlipTime;
-            spriteIndex++;
-            if (spriteIndex > 17) {
-                spriteIndex = 15;
-
-            }
-            gameObjects.get(1).getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(spriteIndex));
-        }
-
-        float x = ((float) Math.sin(t) * 50.0f) + 1100;
-        float y = ((float) Math.cos(t) * 50.0f) + 600;
-        t += 0.05f;
-       // DebugDraw.addLine2D(new Vector2f(1100, 600), new Vector2f(x, y), 100);
-       // DebugDraw.addBox2D(new Vector2f(200, 200), new Vector2f(64, 32), angle, new Vector3f(0.0f, 1.0f, 0.0f), 20);
-
-        angle += 100 * dt;
-
-      //  DebugDraw.addCircle(new Vector2f(300, 300), 64, new Vector3f(1, 1, 0), 1);
 
 
-       // gameObjects.get(1).transform.translate.x += 50 * dt;
+        //  DebugDraw.addCircle(new Vector2f(300, 300), 64, new Vector3f(1, 1, 0), 1);
+
+
+        // gameObjects.get(1).transform.translate.x += 50 * dt;
 
 
         MouseListener.getOrthoY();
-     //   System.out.println("fps= "+ (1.0f/dt));
+        //   System.out.println("fps= "+ (1.0f/dt));
 
 
         for (GameObject o : this.gameObjects) {
@@ -126,7 +115,6 @@ public class LevelEditorScene extends Scene {
 
 
         }
-
 
 
     }
@@ -139,6 +127,11 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void imgui() {
+
+        ImGui.begin("level editor stuff");
+        leveEditorStuff.imgui();
+        ImGui.end();
+
         ImGui.begin("Test window");
         ImVec2 windowPos = new ImVec2();
         ImGui.getWindowPos(windowPos);

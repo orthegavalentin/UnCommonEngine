@@ -38,5 +38,9 @@ public class PropertiesWindow {
 
     }
 
+    public GameObject getActivegameObject(){
+     return this.activegameObject;
+    }
+
 
 }
