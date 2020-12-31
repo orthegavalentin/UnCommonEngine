@@ -85,9 +85,9 @@
         "type": "components.SpriteRenderer",
         "properties": {
           "color": {
-            "x": 0.2784314,
-            "y": 1.0,
-            "z": 1.0,
+            "x": 0.4211334,
+            "y": 0.4745763,
+            "z": 0.024131004,
             "w": 1.0
           },
           "sprite": {
@@ -209,9 +209,9 @@
         "type": "components.SpriteRenderer",
         "properties": {
           "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
+            "x": 0.46246976,
+            "y": 0.42215762,
+            "z": 0.42215762,
             "w": 1.0
           },
           "sprite": {
@@ -255,7 +255,7 @@
         "type": "UnCommon.Transform",
         "properties": {
           "translate": {
-            "x": 927.7754,
+            "x": 993.77545,
             "y": 436.93332
           },
           "scale": {
@@ -317,7 +317,7 @@
         "type": "UnCommon.Transform",
         "properties": {
           "translate": {
-            "x": 147.94914,
+            "x": 219.382,
             "y": 128.0
           },
           "scale": {
@@ -333,9 +333,9 @@
         "type": "components.SpriteRenderer",
         "properties": {
           "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
+            "x": 0.95157385,
+            "y": 0.7902901,
+            "z": 0.9381339,
             "w": 1.0
           },
           "sprite": {
@@ -1061,8 +1061,8 @@
         "type": "UnCommon.Transform",
         "properties": {
           "translate": {
-            "x": 0.0,
-            "y": 523.23016
+            "x": 607.91315,
+            "y": 200.52745
           },
           "scale": {
             "x": 32.0,
@@ -1077,10 +1077,10 @@
         "type": "components.SpriteRenderer",
         "properties": {
           "color": {
-            "x": 0.28193527,
-            "y": 0.5040986,
-            "z": 0.97421205,
-            "w": 1.0
+            "x": 0.28235295,
+            "y": 0.5058824,
+            "z": 0.972549,
+            "w": 0.94509804
           },
           "sprite": {
             "height": 16.0,
@@ -1139,9 +1139,9 @@
         "type": "components.SpriteRenderer",
         "properties": {
           "color": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
+            "x": 0.36077482,
+            "y": 0.28914398,
+            "z": 0.28914398,
             "w": 1.0
           },
           "sprite": {

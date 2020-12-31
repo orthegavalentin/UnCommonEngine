@@ -7,6 +7,11 @@ version '1.0-SNAPSHOT'
 
 
 repositories {
+    flatDir{
+        dirs 'libs'
+
+
+    }
     mavenCentral()
     jcenter()
 
@@ -28,6 +33,11 @@ project.ext.imguiNatives="imgui-java-natives-windows"
 
 '--warning-mode all'
 dependencies {
+    //Box2D
+    implementation name: 'jbox2d-library'
+
+
+
     //JUnit
     testImplementation('junit:junit:4.13')
 
