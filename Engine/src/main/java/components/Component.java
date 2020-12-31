@@ -1,6 +1,7 @@
 package components;
 
 import UnCommon.GameObject;
+import editor.JImGui;
 import imgui.ImGui;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -44,16 +45,10 @@ public abstract class Component {
                 String name = field.getName();
                 if (type == int.class) {
                     int val = (int) value;
-                    int[] imInt = {val};
-                    if (ImGui.dragInt(name + " :", imInt)) {
-                        field.set(this, imInt[0]);
-                    }
+                    field.set(this,JImGui.dragInt(name,val));
                 } else if (type == float.class) {
                     float val = (float) value;
-                    float[] imFloat = {val};
-                    if (ImGui.dragFloat(name + " :", imFloat)) {
-                        field.set(this, imFloat[0]);
-                    }
+                    field.set(this,JImGui.dragFloat(name,val));
 
                 } else if (type == boolean.class) {
                     boolean val = (boolean) value;
@@ -73,12 +68,7 @@ public abstract class Component {
                     }
                 } else if (type == Vector2f.class) {
                     Vector2f val = (Vector2f) value;
-                    float[] imVec = {val.x, val.y};
-
-                    if (ImGui.dragFloat3(name + " :", imVec)) {
-                        val.set(imVec[0], imVec[1]);
-
-                    }
+                    JImGui.drawVec2Control(name,val);
 
                 }else if (type == Vector4f.class) {
                     Vector4f val = (Vector4f) value;

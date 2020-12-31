@@ -1,14 +1,28 @@
 package UnCommon;
 
+import components.Component;
+import editor.JImGui;
 import org.joml.Vector2f;
 
-public class Transform {
+public class Transform extends Component {
     public Vector2f translate;
     public Vector2f scale;
     public float rotation=0.0f;
+    public int zIndex;
 
     public Transform() {
         init(new Vector2f(), new Vector2f());
+
+
+    }
+
+    @Override
+    public void imgui(){
+        JImGui.drawVec2Control("position",this.translate);
+        JImGui.drawVec2Control("Scale",this.scale,32.0f);
+        JImGui.dragFloat("Rotation",this.rotation);
+        JImGui.dragInt("Z-index",this.zIndex);
+
 
 
     }
@@ -28,6 +42,7 @@ public class Transform {
     public void init(Vector2f translate, Vector2f scale) {
         this.translate = translate;
         this.scale = scale;
+        this.zIndex=0;
 
 
     }
@@ -49,7 +64,8 @@ public class Transform {
         if (!(obj instanceof Transform) )
             return false;
         Transform t=(Transform)obj;
-        return t.translate.equals(this.translate)&&t.translate.equals(this.scale);
+        return t.translate.equals(this.translate)&&t.translate.equals(this.scale)&&t.rotation==this.rotation
+                &&t.zIndex==this.zIndex;
 
 
     }

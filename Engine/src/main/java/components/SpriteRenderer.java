@@ -1,5 +1,6 @@
 package components;
 
+import editor.JImGui;
 import renderer.Texture;
 import UnCommon.Transform;
 import imgui.ImGui;
@@ -65,10 +66,10 @@ public class SpriteRenderer extends Component {
 
     @Override
     public void imgui() {
-        float[] imcolor={ color.x,color.y,color.z,color.w};
-        if(ImGui.colorPicker4("Color picker",imcolor)){
-            this.color.set(imcolor[0],imcolor[1],imcolor[2],imcolor[3]);
+
+        if(JImGui.colorPicker4("Color Picker",this.color)){
             this.isDirty=true;
+
 
         }
 

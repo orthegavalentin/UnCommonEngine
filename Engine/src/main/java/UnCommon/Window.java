@@ -203,9 +203,7 @@ public class Window {
             DebugDraw.beginFrame();
             this.frameBuffer.bind();
             glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
-            if (MouseListener.isDragging()) {
-                System.out.println("you are dragging bro");
-            }
+
 
             if (dt >= 0) {
                 DebugDraw.draw();
