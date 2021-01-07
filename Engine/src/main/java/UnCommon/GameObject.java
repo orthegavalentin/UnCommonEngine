@@ -1,7 +1,12 @@
 package UnCommon;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import components.Component;
+import components.ComponentDeserialiser;
+import components.SpriteRenderer;
 import imgui.ImGui;
+import util.AssetPool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +20,7 @@ public class GameObject {
     //to implement layers
 
     private boolean doSerialisation = true;
-    private boolean isDead=false;
+    private boolean isDead = false;
 
 
    /* public GameObject(String name) {
@@ -152,6 +157,35 @@ public class GameObject {
 
         }
 
+
+    }
+
+    public GameObject copy() {
+        //TODO do it a good way
+
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(Component.class, new ComponentDeserialiser())
+                .registerTypeAdapter(GameObject.class, new GameOjectDeserialiser())
+                .create();
+
+        String jsonObj = gson.toJson(this);
+        GameObject obj = gson.fromJson(jsonObj, GameObject.class);
+        obj.generateUid();
+        for (Component c : obj.getAllComponents()) {
+            c.generateId();
+        }
+        SpriteRenderer sprite = obj.getComponent(SpriteRenderer.class);
+        if (sprite != null && sprite.getTexture() != null) {
+
+            sprite.setTextur(AssetPool.getTexture(sprite.getTexture().getFilepath()));
+        }
+
+        return obj;
+    }
+
+    private void generateUid() {
+        this.uid = ID_COUNTERR++;
 
     }
 }

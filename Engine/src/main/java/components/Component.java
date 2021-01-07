@@ -3,6 +3,7 @@ package components;
 import UnCommon.GameObject;
 import editor.JImGui;
 import imgui.ImGui;
+import imgui.type.ImInt;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -11,8 +12,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 public abstract class Component {
-    private static int ID_COUNTER=0;
-    protected  int uid=-1;
+    private static int ID_COUNTER = 0;
+    protected int uid = -1;
 
 
     public transient GameObject gameObject = null;
@@ -45,11 +46,11 @@ public abstract class Component {
                 String name = field.getName();
                 if (type == int.class) {
                     int val = (int) value;
-                    field.set(this,JImGui.dragInt(name,val));
+                    field.set(this, JImGui.dragInt(name, val));
                 } else if (type == float.class) {
                     float val = (float) value;
 
-                    field.set(this,JImGui.dragFloat(name,val));
+                    field.set(this, JImGui.dragFloat(name, val));
 
                 } else if (type == boolean.class) {
                     boolean val = (boolean) value;
@@ -70,16 +71,26 @@ public abstract class Component {
                 } else if (type == Vector2f.class) {
                     Vector2f val = (Vector2f) value;
 
-                    JImGui.drawVec2Control(name,val);
+                    JImGui.drawVec2Control(name, val);
 
-                }else if (type == Vector4f.class) {
+                } else if (type == Vector4f.class) {
                     Vector4f val = (Vector4f) value;
-                    float[] imVec = {val.x, val.y, val.z,val.w};
+                    float[] imVec = {val.x, val.y, val.z, val.w};
 
-                    if (ImGui.dragFloat4(" :"+name , imVec)) {
-                        val.set(imVec[0], imVec[1], imVec[2],imVec[3]);
+                    if (ImGui.dragFloat4(" :" + name, imVec)) {
+                        val.set(imVec[0], imVec[1], imVec[2], imVec[3]);
 
                     }
+
+                } else if (type.isEnum()) {
+                    String[] enumValues = getEnumValues(type);
+                    String enumType = ((Enum) value).name();
+                    ImInt index = new ImInt(indexOf(enumType, enumValues));
+                    if (ImGui.combo(field.getName(), index, enumValues, enumValues.length)) {
+                        field.set(this, type.getEnumConstants()[index.get()]);
+                    }
+
+
                 }
                 if (isPrivate) {
                     field.setAccessible(false);
@@ -91,20 +102,43 @@ public abstract class Component {
         }
     }
 
+    private <T extends Enum<T>> String[] getEnumValues(Class<T> type) {
+
+        String[] enumValues = new String[type.getEnumConstants().length];
+        int i=0;
+        for(T enumIntegerValue: type.getEnumConstants()){
+
+            enumValues[i] =enumIntegerValue.name();
+            i++;
+
+        }
+        return enumValues;
+
+    }
+    private int indexOf(String str,String[] arr){
+        for(int i=0; i<arr.length;i++ ){
+            if(str.equals(arr[i])){
+                return  i;
+            }
+
+        }
+        return -1;
+    }
 
 
-    public void generateId(){
-        if(this.uid==-1){
+    public void generateId() {
+        if (this.uid == -1) {
 
-            this.uid=ID_COUNTER++;
+            this.uid = ID_COUNTER++;
         }
     }
 
-    public int getUid(){
+    public int getUid() {
         return this.uid;
     }
-    public static void init(int maxid){
-        ID_COUNTER=maxid;
+
+    public static void init(int maxid) {
+        ID_COUNTER = maxid;
     }
 
     public void destroy() {

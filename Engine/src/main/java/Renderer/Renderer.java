@@ -40,7 +40,7 @@ public class Renderer {
         }
         if (!added) {
 
-            RenderBatch newbatch = new RenderBatch(Max_BATCH_SIZE, sprite.gameObject.transform.zIndex);
+            RenderBatch newbatch = new RenderBatch(Max_BATCH_SIZE, sprite.gameObject.transform.zIndex, this);
             newbatch.start();
             batches.add(newbatch);
             newbatch.addSprite(sprite);
@@ -61,8 +61,8 @@ public class Renderer {
 
     public void render() {
         currenShader.use();
-        for (RenderBatch batch : batches) {
-
+        for (int i = 0; i < batches.size(); i++) {
+            RenderBatch batch = batches.get(i);
             batch.render();
         }
 

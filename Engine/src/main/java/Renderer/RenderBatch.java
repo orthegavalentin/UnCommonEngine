@@ -48,8 +48,9 @@ public class RenderBatch implements Comparable<RenderBatch> {
     // private Shader shader;
     private int[] texSlots = {0, 1, 2, 3, 4, 5, 6, 7};
     private int zIndex;
+    private Renderer renderer;
 
-    public RenderBatch(int maxBatchSize, int zIndex) {
+    public RenderBatch(int maxBatchSize, int zIndex,Renderer renderer) {
         //avoiding creation of a bunch of shader for nothing
 
         this.sprites = new SpriteRenderer[maxBatchSize];
@@ -60,6 +61,7 @@ public class RenderBatch implements Comparable<RenderBatch> {
         vertices = new float[maxBatchSize * 4 * VERTEX_SIZE];
         this.numSprites = 0;
         this.hasRoom = true;
+        this.renderer=renderer;
 
 
     }
@@ -207,17 +209,17 @@ public class RenderBatch implements Comparable<RenderBatch> {
 
 
         //add vertice with the appropriate properties
-        float xAdd = 1.0f;
-        float yAdd = 1.0f;
+        float xAdd = 0.5f;
+        float yAdd = 0.5f;
 
         for (int i = 0; i < 4; i++) {
             if (i == 1) {
-                yAdd = 0.0f;
+                yAdd = -0.5f;
             } else if (i == 2) {
-                xAdd = 0.0f;
+                xAdd = -0.5f;
 
             } else if (i == 3) {
-                yAdd = 1.0f;
+                yAdd = 0.5f;
 
             }
             Vector4f currentPos= new Vector4f(sprite.gameObject.transform.translate.x
@@ -265,6 +267,14 @@ public class RenderBatch implements Comparable<RenderBatch> {
                 loadVertexProperties(i);
                 spriteRenderer.setClean();
                 rebufferData = true;
+
+            }
+
+            if(spriteRenderer.gameObject.transform.zIndex!=this.zIndex){
+                destroyIfexists(spriteRenderer.gameObject);
+                renderer.add(spriteRenderer.gameObject) ;
+                i--;
+
 
             }
 

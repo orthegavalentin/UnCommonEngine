@@ -7,7 +7,7 @@ import org.joml.Vector2f;
 public class Transform extends Component {
     public Vector2f translate;
     public Vector2f scale;
-    public float rotation=0.0f;
+    public float rotation = 0.0f;
     public int zIndex;
 
     public Transform() {
@@ -16,6 +16,13 @@ public class Transform extends Component {
 
     }
 
+    @Override
+    public void imgui() {
+        JImGui.drawVec2Control("Position", this.translate);
+        JImGui.drawVec2Control("Scale", this.scale,32.0f);
+        this.rotation=JImGui.dragFloat("Rotation",this.rotation);
+        this.zIndex=JImGui.dragInt("Z-Index",this.zIndex);
+    }
 
 
     public Transform(Vector2f translate) {
@@ -33,7 +40,7 @@ public class Transform extends Component {
     public void init(Vector2f translate, Vector2f scale) {
         this.translate = translate;
         this.scale = scale;
-        this.zIndex=0;
+        this.zIndex = 0;
 
 
     }
@@ -52,11 +59,11 @@ public class Transform extends Component {
     public boolean equals(Object obj) {
         if (obj == null)
             return false;
-        if (!(obj instanceof Transform) )
+        if (!(obj instanceof Transform))
             return false;
-        Transform t=(Transform)obj;
-        return t.translate.equals(this.translate)&&t.translate.equals(this.scale)&&t.rotation==this.rotation
-                &&t.zIndex==this.zIndex;
+        Transform t = (Transform) obj;
+        return t.translate.equals(this.translate) && t.translate.equals(this.scale) && t.rotation == this.rotation
+                && t.zIndex == this.zIndex;
 
 
     }

@@ -1,14 +1,11 @@
 package components;
 
-import UnCommon.GameObject;
-import UnCommon.MouseListener;
-import UnCommon.Prefabs;
-import UnCommon.Window;
+import UnCommon.*;
 import editor.PropertiesWindow;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
+import static org.lwjgl.glfw.GLFW.*;
 
 public class Gizmo extends Component {
 
@@ -24,10 +21,10 @@ public class Gizmo extends Component {
     private SpriteRenderer yAxisSprite;
     protected GameObject activeGameObject = null;
     private PropertiesWindow propertiesWindow;
-    private Vector2f xAxisOffSet = new Vector2f(65f, 2f);
-    private Vector2f yAxisOffSet = new Vector2f(26f, 60f);
-    private int gizmoWidth = 16;
-    private int gizmoHeight = 48;
+    private Vector2f xAxisOffSet = new Vector2f(24f / 80f, -6f / 80f);
+    private Vector2f yAxisOffSet = new Vector2f(-7f / 80f, 21f / 80f);
+    private float gizmoWidth = 16f / 80f;
+    private float gizmoHeight = 48f / 80f;
 
     protected boolean xAxisActive = false;
     protected boolean yAxisActive = false;
@@ -36,9 +33,9 @@ public class Gizmo extends Component {
 
     public Gizmo(Sprite arrowSprite, PropertiesWindow propertiesWindow) {
         this.xAxisObject = Prefabs.generateSpriteObject(arrowSprite,
-                16, 48);
+                gizmoWidth, gizmoHeight);
         this.yAxisObject = Prefabs.generateSpriteObject(arrowSprite,
-                16, 48);
+                gizmoWidth, gizmoHeight);
         this.xAxisSprite = this.xAxisObject.getComponent(SpriteRenderer.class);
         this.yAxisSprite = this.yAxisObject.getComponent(SpriteRenderer.class);
         this.propertiesWindow = propertiesWindow;
@@ -54,8 +51,8 @@ public class Gizmo extends Component {
     public void start() {
         this.xAxisObject.transform.rotation = 90;
         this.yAxisObject.transform.rotation = 180;
-        this.xAxisObject.transform.zIndex=50;
-        this.yAxisObject.transform.zIndex=50;
+        this.xAxisObject.transform.zIndex = 50;
+        this.yAxisObject.transform.zIndex = 50;
         this.xAxisObject.setNoSerialize();
         this.yAxisObject.setNoSerialize();
 
@@ -63,9 +60,9 @@ public class Gizmo extends Component {
     }
 
     @Override
-    public void update(float dt){
-        if(using){
-           this.setInActive();
+    public void update(float dt) {
+        if (using) {
+            this.setInActive();
         }
 
 
@@ -83,6 +80,26 @@ public class Gizmo extends Component {
         this.activeGameObject = this.propertiesWindow.getActivegameObject();
         if (this.activeGameObject != null) {
             this.setActive();
+            //TODO :move this out of here
+            if (KeyListener.isKeypressed(GLFW_KEY_LEFT_CONTROL) &&
+                    KeyListener.keyBeginPress(GLFW_KEY_D)) {
+                GameObject newObj=this.activeGameObject.copy();
+                Window.getScene().addGameObjectToScene(newObj);
+                newObj.transform.translate.add(0.125f,0.0f);
+                this.propertiesWindow.setActiveGameObject(newObj);
+                return;
+
+
+
+            }else if(KeyListener.isKeypressed(GLFW_KEY_DELETE)){
+                activeGameObject.destroy();
+                this.setInActive();
+                this.propertiesWindow.setActiveGameObject(null);
+                return;
+
+
+
+            }
         } else {
             this.setInActive();
             return;
@@ -119,10 +136,10 @@ public class Gizmo extends Component {
     private boolean checkXHoverState() {
         Vector2f mousePos = new Vector2f(MouseListener.getOrthoX(), MouseListener.getOrthoY());
 
-        if (mousePos.x <= xAxisObject.transform.translate.x &&
-                mousePos.x >= xAxisObject.transform.translate.x - gizmoHeight &&
-                mousePos.y >= xAxisObject.transform.translate.y &&
-                mousePos.y <= xAxisObject.transform.translate.y + gizmoWidth) {
+        if (mousePos.x <= xAxisObject.transform.translate.x + (gizmoWidth / 2.0f) &&
+                mousePos.x >= xAxisObject.transform.translate.x - (gizmoWidth / 2.0f) &&
+                mousePos.y >= xAxisObject.transform.translate.y - (gizmoHeight / 2.0f) &&
+                mousePos.y <= xAxisObject.transform.translate.y + (gizmoHeight / 2.0f)) {
 
             xAxisSprite.setColor(xAxisHover);
             return true;
@@ -138,10 +155,10 @@ public class Gizmo extends Component {
     private boolean checkYHoverState() {
         Vector2f mousePos = new Vector2f(MouseListener.getOrthoX(), MouseListener.getOrthoY());
 
-        if (mousePos.x <= yAxisObject.transform.translate.x &&
-                mousePos.x >= yAxisObject.transform.translate.x - gizmoWidth &&
-                mousePos.y <= yAxisObject.transform.translate.y &&
-                mousePos.y >= yAxisObject.transform.translate.y - gizmoHeight) {
+        if (mousePos.x <= yAxisObject.transform.translate.x + (gizmoWidth / 2.0f) &&
+                mousePos.x >= yAxisObject.transform.translate.x - (gizmoWidth / 2.0f) &&
+                mousePos.y <= yAxisObject.transform.translate.y + (gizmoHeight / 2.0f) &&
+                mousePos.y >= yAxisObject.transform.translate.y - (gizmoHeight / 2.0f)) {
 
             yAxisSprite.setColor(yAxisHover);
             return true;
