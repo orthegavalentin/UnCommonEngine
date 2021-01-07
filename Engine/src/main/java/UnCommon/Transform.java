@@ -16,16 +16,7 @@ public class Transform extends Component {
 
     }
 
-    @Override
-    public void imgui(){
-        JImGui.drawVec2Control("position",this.translate);
-        JImGui.drawVec2Control("Scale",this.scale,32.0f);
-        JImGui.dragFloat("Rotation",this.rotation);
-        JImGui.dragInt("Z-index",this.zIndex);
 
-
-
-    }
 
     public Transform(Vector2f translate) {
         init(translate, new Vector2f());

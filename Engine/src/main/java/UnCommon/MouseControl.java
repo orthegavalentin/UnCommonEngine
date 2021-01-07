@@ -21,7 +21,7 @@ public class MouseControl extends Component {
     }
 
     @Override
-    public void update(float dt) {
+    public void editorUpdate(float dt) {
         if(holdenObject!=null){
 
             holdenObject.transform.translate.x=MouseListener.getOrthoX();

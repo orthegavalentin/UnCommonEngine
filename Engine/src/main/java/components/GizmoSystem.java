@@ -25,11 +25,11 @@ public class GizmoSystem extends Component {
 
     }
     @Override
-    public void update(float dt) {
+    public void editorUpdate(float dt) {
 
         if(usingGizmo==0){
             gameObject.getComponent(TranslateGizmo.class).setUsing();
-            gameObject.getComponent(ScaleGizmo.class).setNotUsing();
+         gameObject.getComponent(ScaleGizmo.class).setNotUsing();
 
         }else if(usingGizmo==1){
             gameObject.getComponent(TranslateGizmo.class).setNotUsing();

@@ -69,9 +69,10 @@ public class JImGui {
         ImGui.sameLine();
 
 
+
         ImGui.nextColumn();
-        values.x = vecValueX[0];
-        values.y = vecValueY[0];
+     values.x= vecValueX[0];
+     values.y = vecValueY[0];
         ImGui.popStyleVar();
         ImGui.columns(1);
 
@@ -88,12 +89,14 @@ public class JImGui {
 
 
         float[] valArr = {value};
-        ImGui.dragFloat("##dragFloat", valArr, 0.1f);
+        ImGui.dragFloat("##dragFloat", valArr, 0.8f);
+
 
 
         ImGui.columns(1);
         ImGui.popID();
         return valArr[0];
+
     }
 
     public static int dragInt(String label, int value) {
@@ -105,7 +108,7 @@ public class JImGui {
 
 
         int[] valArr = {value};
-        ImGui.dragInt("##dragFloat", valArr, 0.1f);
+        ImGui.dragInt("##dragInt", valArr, 0.1f);
 
 
         ImGui.columns(1);

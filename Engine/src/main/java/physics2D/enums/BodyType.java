@@ -1,4 +1,4 @@
-package physics2d.enums;
+package physics2D.enums;
 
 public enum BodyType {
     Static,

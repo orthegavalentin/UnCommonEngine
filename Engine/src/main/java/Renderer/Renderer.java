@@ -53,6 +53,7 @@ public class Renderer {
 
         currenShader = shader;
     }
+
     public static Shader getBoundShader() {
 
         return currenShader;
@@ -69,4 +70,15 @@ public class Renderer {
     }
 
 
+    public void destroyGameObject(GameObject go) {
+        if (go.getComponent(SpriteRenderer.class) == null) return;
+        for (RenderBatch batch : batches) {
+            if (batch.destroyIfexists(go)) {
+                return;
+
+            }
+
+        }
+
+    }
 }

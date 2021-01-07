@@ -10,7 +10,7 @@ public class ScaleGizmo extends Gizmo  {
     }
 
     @Override
-    public void update(float dt) {
+    public void editorUpdate(float dt) {
 
 
         if(activeGameObject!=null){
@@ -22,7 +22,7 @@ public class ScaleGizmo extends Gizmo  {
             }
         }
 
-        super.update(dt);
+        super.editorUpdate(dt);
 
 
 

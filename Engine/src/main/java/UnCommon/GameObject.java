@@ -15,6 +15,7 @@ public class GameObject {
     //to implement layers
 
     private boolean doSerialisation = true;
+    private boolean isDead=false;
 
 
    /* public GameObject(String name) {
@@ -106,6 +107,10 @@ public class GameObject {
         }
     }
 
+    public boolean isDead() {
+        return isDead;
+    }
+
     public static void init(int maxId) {
         ID_COUNTERR = maxId;
 
@@ -125,5 +130,28 @@ public class GameObject {
 
     public boolean getDoSerialization() {
         return this.doSerialisation;
+    }
+
+    public void destroy() {
+        this.isDead = true;
+        for (int i = 0; i < components.size(); i++) {
+
+            components.get(i).destroy();
+
+
+        }
+
+
+    }
+
+    public void editorUpdate(float dt) {
+
+        for (int i = 0; i < components.size(); i++) {
+
+            components.get(i).editorUpdate(dt);
+
+        }
+
+
     }
 }

@@ -1,4 +1,4 @@
-package physics2d.components;
+package physics2D.components;
 
 import components.Component;
 

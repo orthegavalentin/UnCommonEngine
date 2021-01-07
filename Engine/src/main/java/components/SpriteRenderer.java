@@ -62,6 +62,17 @@ public class SpriteRenderer extends Component {
 
         }
 
+
+    }
+
+    @Override
+    public void editorUpdate(float dt) {
+        if (!(this.lastTrasform.equals(this.gameObject.transform))) {
+            this.gameObject.transform.copy(this.lastTrasform);
+            this.isDirty = true;
+
+
+        }
     }
 
     @Override
@@ -109,4 +120,7 @@ public class SpriteRenderer extends Component {
         this.sprite.setTexture(texture);
     }
 
+    public void setDirty() {
+        isDirty=true;
+    }
 }

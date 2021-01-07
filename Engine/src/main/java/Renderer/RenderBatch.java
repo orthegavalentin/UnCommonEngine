@@ -1,5 +1,6 @@
 package renderer;
 
+import UnCommon.GameObject;
 import UnCommon.Window;
 import components.SpriteRenderer;
 import org.joml.Matrix4f;
@@ -344,5 +345,28 @@ public class RenderBatch implements Comparable<RenderBatch> {
     public int compareTo(RenderBatch o) {
 
         return Integer.compare(this.zIndex, o.getzIndex());
+    }
+
+    public boolean destroyIfexists(GameObject go) {
+        SpriteRenderer sprite=go.getComponent(SpriteRenderer.class);
+
+        for(int i=0;i<numSprites;i++){
+            if(sprites[i]==sprite){
+                for(int j=i;j<numSprites-1;j++){
+                    sprites[j]=sprites[j+1];
+                    sprites[j].setDirty();
+
+                }
+
+                numSprites--;
+                return true;
+
+
+            }
+
+
+        }
+        return  false;
+
     }
 }

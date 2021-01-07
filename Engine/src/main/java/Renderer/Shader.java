@@ -14,7 +14,6 @@ import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
 
 public class Shader {
     private int shaderProgramID;
-    private boolean beingUsed=false;
     private String vertexSource;
     private String fragmentSource;
     private String filePath;
@@ -25,15 +24,19 @@ public class Shader {
 
         try {
             String source = new String(Files.readAllBytes(Paths.get(filepath)));
-           splitString = source.split("(#type)( )+([a-zA-Z]+)");
+            splitString = source.split("(#type)( )+([a-zA-Z]+)");
             //find the vertex shader
             int index = source.indexOf("#type") + 6;
-            int eol = source.indexOf("\r\n", index);
+
+            int eol = source.indexOf("\n", index);
+
             String firstPattern = source.substring(index, eol).trim();
+
             //find the fragment shader
             index = source.indexOf("#type", eol) + 6;//find the next #type starting from the eol
-            eol = source.indexOf("\r\n", index);
+            eol = source.indexOf("\n", index);
             String secondPattern = source.substring(index, eol).trim();
+            System.out.println("eol="+secondPattern);
 
             if (firstPattern.equals("vertex")) {
                 vertexSource = splitString[1];
@@ -127,28 +130,24 @@ public class Shader {
     }
 
     public void use() {
-        if(!beingUsed) {
-            //Bind our shader program
-            glUseProgram(shaderProgramID);
-            beingUsed=true;
-        }
+        //Bind our shader program
+        glUseProgram(shaderProgramID);
+
 
     }
 
     public void detach() {
         glUseProgram(0);
-        beingUsed=false;
 
 
     }
 
-
     public void uploadMat4f(String varName, Matrix4f mat4){
-   int varLocation =glGetUniformLocation(shaderProgramID,varName);
-   use();
-   FloatBuffer matBuffer= BufferUtils.createFloatBuffer(16);//since it is a 4*4 matrix
-   mat4.get(matBuffer);
-   glUniformMatrix4fv(varLocation,false,matBuffer);
+        int varLocation =glGetUniformLocation(shaderProgramID,varName);
+        use();
+        FloatBuffer matBuffer= BufferUtils.createFloatBuffer(16);//since it is a 4*4 matrix
+        mat4.get(matBuffer);
+        glUniformMatrix4fv(varLocation,false,matBuffer);
 
 
     }

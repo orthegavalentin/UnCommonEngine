@@ -48,6 +48,7 @@ public abstract class Component {
                     field.set(this,JImGui.dragInt(name,val));
                 } else if (type == float.class) {
                     float val = (float) value;
+
                     field.set(this,JImGui.dragFloat(name,val));
 
                 } else if (type == boolean.class) {
@@ -68,6 +69,7 @@ public abstract class Component {
                     }
                 } else if (type == Vector2f.class) {
                     Vector2f val = (Vector2f) value;
+
                     JImGui.drawVec2Control(name,val);
 
                 }else if (type == Vector4f.class) {
@@ -103,5 +105,13 @@ public abstract class Component {
     }
     public static void init(int maxid){
         ID_COUNTER=maxid;
+    }
+
+    public void destroy() {
+    }
+
+    public void editorUpdate(float dt) {
+
+
     }
 }
