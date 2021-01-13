@@ -3,6 +3,8 @@ package editor;
 import UnCommon.GameObject;
 import UnCommon.MouseListener;
 import components.NonPickable;
+import components.PlayerController;
+
 import imgui.ImGui;
 import physics2D.components.Box2DCollider;
 import physics2D.components.Circle2DCollider;
@@ -21,7 +23,7 @@ public class PropertiesWindow {
         this.pickingTexture = pickingTexture;
     }
 
-    public void update(float dt, Scene currentScene) {
+    public void update(float dt,Scene currentScene) {
         debounce -= dt;
         if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT) && debounce < 0) {
             int x = (int) MouseListener.getScreenX();
@@ -64,6 +66,12 @@ public class PropertiesWindow {
                     if (activegameObject.getComponent(Circle2DCollider.class) == null&&
                             activegameObject.getComponent(Box2DCollider.class) == null) {
                         activegameObject.addComponent(new Circle2DCollider());
+                    }
+                }
+                if (ImGui.menuItem("Add Controller")) {
+                    if (activegameObject.getComponent(PlayerController.class) == null
+                            ) {
+                        activegameObject.addComponent(new PlayerController());
                     }
                 }
                 ImGui.endPopup();

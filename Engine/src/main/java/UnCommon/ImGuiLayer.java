@@ -220,7 +220,7 @@ public class ImGuiLayer {
         currentScene.imgui();
         propertiesWindow.update(dt,currentScene);
         propertiesWindow.imgui();
-        ImGui.showDemoWindow();
+        //ImGui.showDemoWindow();
         gameViewWindow.imgui();
         menuBar.imgui();
         ImGui.end();

@@ -2,6 +2,8 @@ package physics2D;
 
 import UnCommon.GameObject;
 import UnCommon.Transform;
+import components.PlayerController;
+
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -25,6 +27,10 @@ public class Physics2D {
 
     public void add(GameObject gameObject) {
         RigidBody2D rb = gameObject.getComponent(RigidBody2D.class);
+
+
+
+
         if (rb != null && rb.getRawBody() == null) {
             Transform transform = gameObject.transform;
             BodyDef bodyDef = new BodyDef();
@@ -34,6 +40,7 @@ public class Physics2D {
             bodyDef.linearDamping = rb.getLinearDamping();
             bodyDef.fixedRotation = rb.isFixedRotation();
             bodyDef.bullet = rb.isContinuousCollision();
+
 
             switch (rb.getBodyType()) {
                 case KINEMATIC:
@@ -73,6 +80,10 @@ public class Physics2D {
 
             Body body = this.world.createBody(bodyDef);
             rb.setRawBody(body);
+
+
+
+
             body.createFixture(shape, rb.getMass());
 
 

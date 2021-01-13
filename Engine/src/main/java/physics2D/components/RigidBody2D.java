@@ -1,9 +1,13 @@
 package physics2D.components;
 
+import UnCommon.KeyListener;
 import components.Component;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyType;
 import org.joml.Vector2f;
+
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
 
 
 public class RigidBody2D extends Component {
@@ -20,9 +24,18 @@ public class RigidBody2D extends Component {
     @Override
     public void update(float dt) {
         if(rawBody !=null){
+           /* if(KeyListener.isKeypressed(GLFW_KEY_LEFT)){
+                System.out.println("lll000kk");
+                rawBody.applyForce(new Vec2(10,0),rawBody.getWorldCenter());
+              //  rawBody.setLinearVelocity(new Vec2(1,0));
+
+
+
+
+            }*/
             this.gameObject.transform.translate.set(rawBody.getPosition().x,
                     rawBody.getPosition().y);
-            this.gameObject.transform.rotation=(float) Math.toDegrees(rawBody.getAngle());
+           this.gameObject.transform.rotation=(float) Math.toDegrees(rawBody.getAngle());
 
 
         }

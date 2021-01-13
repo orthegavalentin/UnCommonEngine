@@ -1,6 +1,8 @@
 package scenes;
 
 import UnCommon.*;
+import components.SpriteRenderer;
+import components.SpriteSheet;
 import org.joml.Vector2f;
 import physics2D.Physics2D;
 import renderer.Renderer;
@@ -9,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import components.Component;
 import components.ComponentDeserialiser;
 import imgui.ImGui;
+import util.AssetPool;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,7 +23,7 @@ import java.util.Optional;
 
 public class Scene {
 
-    private Renderer renderer = new Renderer();
+    private Renderer renderer;
     private Camera camera;
     private boolean isRunning;
     private List<GameObject> gameObjects ;
@@ -28,6 +31,9 @@ public class Scene {
     private boolean levelLoaded;
     private SceneInitializer sceneInitializer;
     private Physics2D physics2D;
+
+    private SpriteSheet sprites;
+
 
     public Scene(SceneInitializer sceneInitializer) {
 
@@ -37,6 +43,7 @@ public class Scene {
         this.gameObjects=new ArrayList<>();
         this.levelLoaded=false;
         this.isRunning=false;
+
 
 
     }
@@ -69,6 +76,9 @@ public class Scene {
 
 
     }
+    private int spriteIndex=15;
+    private float spriteFlipTime=0.8f;
+    private float spriteFlipTimeleft=0.0f;
 
     public void update(float dt) {
         this.camera.adjustProjection();
@@ -77,6 +87,11 @@ public class Scene {
 
         for (int i=0;i<gameObjects.size();i++) {
             GameObject go=gameObjects.get(i);
+            if(go.getComponent(SpriteRenderer.class)!=null){
+
+
+               // go.transform.translate.x+=0.01f;
+            }
 
             go.update(dt);
 
@@ -101,9 +116,15 @@ public class Scene {
     }
 
     public void init() {
+        sprites = AssetPool.getSpriteSheet("Assets/images/spritesheet.png");
         this.camera = new Camera(new Vector2f(0.3f, 0.4f));
         this.sceneInitializer.loadResources(this);
         this.sceneInitializer.init(this);
+
+
+
+
+
 
     }
 

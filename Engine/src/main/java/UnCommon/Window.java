@@ -40,7 +40,7 @@ public class Window implements Observer {
         this.height = 1080;
         this.width = 1920;
         this.title = "UnCommon";
-        this.color = new Vector4f(209 / (float) 255, 216 / (float) 255, 184 / (float) 255, 1);
+        this.color = new Vector4f(40/ (float) 255, 40/ (float) 255, 29/ (float) 255, 1);
         EventSystem.addObserver(this);
 
 
@@ -200,7 +200,7 @@ public class Window implements Observer {
             // render pass 2. Render to picking texture
             glClearColor(this.color.x, this.color.y, this.color.z, this.color.w);
             DebugDraw.beginFrame();
-            this.frameBuffer.bind();
+           this.frameBuffer.bind();
             glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
 
 

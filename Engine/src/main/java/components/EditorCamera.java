@@ -62,7 +62,7 @@ public class EditorCamera extends Component {
         }
 
 
-        if(KeyListener.isKeypressed(GLFW_KEY_R)){
+        if(KeyListener.isKeypressed(GLFW_KEY_B)){
             reset=true;
 
         }
