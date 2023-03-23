@@ -8,7 +8,6 @@ to be able to build the project automatically
 Pour le moment, le jeu n'est pas terminé car il y a quelques fonctionnalités du
 moteur qui sont encore en développement mais pour la partie finie voici quelques utilisations du moteur
 
-j'ai decide d'ecrire le readMe en anglais par ceque c'est plus pratique
 
 Level Editing
 
